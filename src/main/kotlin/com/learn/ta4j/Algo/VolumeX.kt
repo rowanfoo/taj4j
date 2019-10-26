@@ -55,13 +55,14 @@ class VolumeX {
 
             var querydata = ignitecache.values(" where code=?  order by date desc  LIMIT ? ", arrayOf(it, "1"))
             var coreData = querydata.first()
+            var date = coreData.date
             var volume = coreData.volume
             var avgvol = cache3.get(it)
             if ((volume / avgvol) > volumex) {
                 println("-----------------ALGO----volumex--selected ----${(volume / avgvol)}----vs $volumex-------------$it")
 
 
-                var tech = techstr(it, coreData.date, "vol", "volume   ${"%.2f".format((coreData.volume / avgvol))}  **  ${"%.2f".format(coreData.changepercent)}")
+                var tech = techstr(it, date, "vol", "volume   ${"%.2f".format((coreData.volume / avgvol))}  **  ${"%.2f".format(coreData.changepercent)}")
                 var stk = ignitecachestock.get(it)
                 var sector = stk.top ?: ""
                 tech.stock = Stock(stk.code, sector, stk.name)

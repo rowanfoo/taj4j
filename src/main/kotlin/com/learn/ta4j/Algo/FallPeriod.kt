@@ -11,7 +11,6 @@ import com.learn.ta4j.utility.TechStrUtility
 import org.apache.ignite.Ignite
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.time.LocalDate
 
 @Component
 class FallPeriod {
@@ -44,6 +43,7 @@ class FallPeriod {
 
 
             var querydata = ignitecache.values(" where code=?  order by date desc  LIMIT ?  ", arrayOf(it, date))
+            var date = querydata.first().date
             var last = querydata.first().close
             var max = querydata.maxBy { it.close }!!.close
 
@@ -53,7 +53,7 @@ class FallPeriod {
             if (percentage > userprecentage) {
 
 
-                var tech = techstr(it, LocalDate.now(), "Fall below period $date  for ${userprecentage * 100}", "down   ${ConvertUtily.round(percentage) * 100}%")
+                var tech = techstr(it, date, "Fall below period $date  for ${userprecentage * 100}", "down   ${ConvertUtily.round(percentage) * 100}%")
                 var stk = ignitecachestock.get(it)
                 var sector = stk.top ?: ""
                 if ((TechStrUtility.filtersector(usersector))(stk)) {

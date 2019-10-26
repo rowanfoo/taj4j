@@ -137,33 +137,33 @@ class RunController {
 
     }
 
-//    @GetMapping("/fallshort")
-//    fun fallshort(): List<techstr> {
-//        println("---------------------RUN----------fall------------")
-//
-//        var content = JsonObject()
-//        content.addProperty("time", "14")
-//        content.addProperty("percent", 0.05)
-//        content.addProperty("sector", 300)
-//
-//        return fallPeriod.process(content)
-//
-//    }
-//
-//
-//    @GetMapping("/falllong")
-//    fun falllong(): List<techstr> {
-//        // find all that has fallen 30% in 1.5 years
-//        println("---------------------RUN----------fall------------")
-//
-//        var content = JsonObject()
-//        content.addProperty("time", "360")
-//        content.addProperty("percent", 0.3)
-//        content.addProperty("sector", 300)
-//
-//        return fallPeriod.process(content)
-//
-//    }
+    @GetMapping("/fallshort")
+    fun fallshort(): List<techstr> {
+        println("---------------------RUN----------fall------------")
+
+        var content = JsonObject()
+        content.addProperty("time", "14")
+        content.addProperty("percent", 0.05)
+        content.addProperty("sector", 300)
+
+        return fallPeriod.process(content)
+
+    }
+
+
+    @GetMapping("/falllong")
+    fun falllong(): List<techstr> {
+        // find all that has fallen 30% in 1.5 years
+        println("---------------------RUN----------fall------------")
+
+        var content = JsonObject()
+        content.addProperty("time", "360")
+        content.addProperty("percent", 0.3)
+        content.addProperty("sector", 300)
+
+        return fallPeriod.process(content)
+
+    }
 
 
     @GetMapping("/abc")

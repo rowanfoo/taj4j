@@ -43,6 +43,8 @@ class FallPeriod {
 
 
             var querydata = ignitecache.values(" where code=?  order by date desc  LIMIT ?  ", arrayOf(it, date))
+//            var querydata = ignitecache.values( User.downperiodalgo().generateSql() , arrayOf(it))
+
             var date = querydata.first().date
             var last = querydata.first().close
             var max = querydata.maxBy { it.close }!!.close
@@ -51,7 +53,7 @@ class FallPeriod {
             println("------stocks------$it--------$last--------vs---$max------$percentage---  ${percentage > userprecentage}")
 
             if (percentage > userprecentage) {
-
+//if( User.downperiodalgo().predicate()(percentage)  ){
 
                 var tech = techstr(it, date, "Fall below period $date  for ${userprecentage * 100}", "down   ${ConvertUtily.round(percentage) * 100}%")
                 var stk = ignitecachestock.get(it)

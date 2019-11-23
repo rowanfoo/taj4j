@@ -4,10 +4,11 @@ import com.google.gson.JsonObject
 
 data class DownPeriodAlgo(var data: JsonObject) {
 
-    fun generateSql() {
-        var period = data.get("key").asInt
-        var d = data.get("fall").asDouble
+    fun generateSql(): String {
+        var period = data.get("key_downPeriod").asInt
+        var d = data.get("fall_downPeriod").asDouble
         var sql = "where code=?  order by date  desc  LIMIT $period  "
+        return sql
 
 
     }

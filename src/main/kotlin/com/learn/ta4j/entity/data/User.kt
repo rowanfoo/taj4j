@@ -1,5 +1,7 @@
 package com.learn.ta4j.entity.data
 
+import com.google.gson.JsonObject
+
 object User {
 
     var rsi: Int = 14
@@ -15,11 +17,27 @@ object User {
 
     //fall in 2 years > 35%
     var percentperiod = 240
-    var percentperiodfall = 0.35
+    var percentperiodfall = 0.60
 
+    lateinit var indicators: MutableMap<String, UserIndicator>
+
+
+    fun downperiodalgo(): DownPeriodAlgo {
+        var a = JsonObject()
+        a.addProperty("key_downPeriod", User.percentperiod.toString())
+        a.addProperty("fall_downPeriod", User.percentperiodfall.toString())
+        return DownPeriodAlgo(a)
+    }
 
     init {
         println("Initializing object: $this")
+        indicators = mutableMapOf<String, UserIndicator>()
+
+        indicators.put("rsi", UserIndicator("rsi", "14"))
+        indicators.put("volumema", UserIndicator("volumema", "25"))
+        //  indicators.put("rsi" ,  UserIndicator("rsi", "14") )
+
+
     }
 
 }

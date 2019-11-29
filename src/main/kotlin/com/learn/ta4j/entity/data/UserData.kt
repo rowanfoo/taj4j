@@ -2,7 +2,7 @@ package com.learn.ta4j.entity.data
 
 import com.google.gson.JsonObject
 
-object User {
+object UserData {
 
     var rsi: Int = 14
     var rsialgo: Int = 25
@@ -24,8 +24,8 @@ object User {
 
     fun downperiodalgo(): DownPeriodAlgo {
         var a = JsonObject()
-        a.addProperty("key_downPeriod", User.percentperiod.toString())
-        a.addProperty("fall_downPeriod", User.percentperiodfall.toString())
+        a.addProperty("key_downPeriod", UserData.percentperiod.toString())
+        a.addProperty("fall_downPeriod", UserData.percentperiodfall.toString())
         return DownPeriodAlgo(a)
     }
 

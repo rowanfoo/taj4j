@@ -53,4 +53,7 @@ class Pricefall {
     }
 
 
+//fun getdata:String(data:Json)
+
+
 }

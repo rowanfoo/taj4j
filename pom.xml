@@ -92,13 +92,7 @@
             <version>0.0.1</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>com.dharma</groupId>
-            <artifactId>persistence</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
+e
 
         <dependency>
             <groupId>com.h2database</groupId>
@@ -239,6 +233,26 @@
             <!--                    </execution>-->
             <!--                </executions>-->
             <!--            </plugin>-->
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <configuration>
+                    <to>
+                        <image>rowanf/taj</image>
+                        <auth>
+                            <username>rowanf</username>
+                            <password>rowm0ng1</password>
+                        </auth>
+                    </to>
+                    <!--                    <container>-->
+                    <!--                        <mainClass>com.learn.ta4j.Ta4jApplication</mainClass>-->
+                    <!--                    </container>-->
+
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

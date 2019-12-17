@@ -5,6 +5,7 @@ import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreData
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ArrayNode
 import com.google.gson.JsonObject
 import com.learn.ta4j.utility.Maths
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,25 +22,30 @@ public class MetaData {
     lateinit var ma: MA
 
     //    public fun getMetaData(code: List<String>): JsonObject {
-    public fun getMetaData(code: List<String>): List<JsonNode> {
+    public fun getMetaData(code: List<String>): ArrayNode {
 //        var data = JsonObject()
 //        data.addProperty("rsi", User.rsi)
 //        data.addProperty("rsialgo", User.rsialgo)
+        //public fun getMetaData(code: List<String>): ArrayNode {
+
+        var mapper = ObjectMapper()
+        val arrayNode = mapper.createArrayNode()
+
         var list = mutableListOf<JsonNode>()
         var map = mutableMapOf<String, String>()
-        code.forEach {
+        val gamesNode = ObjectMapper().createArrayNode()
+
+        code.map { it.toUpperCase() }.forEach {
 
             println("------code-------$it")
 
-            map.putAll(ma(it))
-            map.putAll(yearprice(it))
-            map.putAll(changePercent(it))
+            map.putAll(ma(it.toUpperCase()))
+            map.putAll(yearprice(it.toUpperCase()))
+            map.putAll(changePercent(it.toUpperCase()))
+            //  gamesNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
 
-
-
-
-            list.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
-
+//            list.add( ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
+            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
 
 //            ObjectMapper().writeValueAsString(ma(it) )
 
@@ -50,8 +56,7 @@ public class MetaData {
         //      val json = ObjectMapper().writeValueAsString(map)
         //    println(json)
 
-        //      return json
-        return list
+        return arrayNode
     }
 
     fun yearprice(code: String): Map<String, String> {
@@ -76,6 +81,8 @@ public class MetaData {
 
 
     fun changePercent(code: String): Map<String, String> {
+        var mapper = ObjectMapper()
+
         var map = mutableMapOf<String, String>()
         var today = ignitecache.values(" where code=?   order by date desc limit ?  ", arrayOf(code, "1"))
         var todaychange = today[0].changepercent

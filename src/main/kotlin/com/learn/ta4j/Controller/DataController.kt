@@ -1,4 +1,4 @@
-package com.learn.ta4j
+package com.learn.ta4j.Controller
 
 import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreData

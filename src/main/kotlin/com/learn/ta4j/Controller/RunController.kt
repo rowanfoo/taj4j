@@ -1,4 +1,4 @@
-package com.learn.ta4j
+package com.learn.ta4j.Controller
 
 import com.dhamma.algodata.algodata.MA
 import com.dhamma.algodata.algodata.RSI

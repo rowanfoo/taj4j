@@ -66,7 +66,7 @@ class Ta4jApplication : CommandLineRunner {
 
         println("-----------------LOAD---ignitecache-------------")
 
-//        var igniterepo = IgniteRepo<CoreData>(ignite, Class.forName("com.dhamma.pesistence.entity.data.CoreData").kotlin)
+//        var igniterepo = IgniteRepo<CoreData>(ignite, Class.forName("com.dhamma.pesistence.data.data.CoreData").kotlin)
         var igniterepo = IgniteRepo<CoreData>(ignite, CoreData())
 
         var mydata = dataRepo.findAll(QCoreData.coreData.date.gt(LocalDate.now().minusYears(2)))
@@ -89,7 +89,7 @@ class Ta4jApplication : CommandLineRunner {
 
         println("-----------------LOAD-----STOCK-------ignitecache-------------")
 
-//        var igniterepo = IgniteRepo<CoreData>(ignite, Class.forName("com.dhamma.pesistence.entity.data.CoreData").kotlin)
+//        var igniterepo = IgniteRepo<CoreData>(ignite, Class.forName("com.dhamma.pesistence.data.data.CoreData").kotlin)
         var igniterepo = IgniteRepo<CoreStock>(ignite, CoreStock())
         var list = stockrepo.findAll().forEach {
             igniterepo.save("${it.code}", it)

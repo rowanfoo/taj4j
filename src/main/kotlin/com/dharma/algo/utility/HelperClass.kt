@@ -1,8 +1,8 @@
 package com.dharma.algo.utility
 
 import com.dhamma.pesistence.entity.data.CoreStock
-import com.learn.ta4j.entity.pojo.Stock
-import com.learn.ta4j.entity.pojo.techstr
+import com.dharma.algo.data.pojo.Stock
+import com.dharma.algo.data.pojo.techstr
 
 
 object TechStrUtility {

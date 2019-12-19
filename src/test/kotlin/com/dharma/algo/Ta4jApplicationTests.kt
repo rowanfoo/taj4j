@@ -1,10 +1,10 @@
 //package com.learn.ta4j
 //
 //import com.dhamma.api.IgniteRepo
-//import com.dhamma.pesistence.entity.data.CoreData
-//import com.dhamma.pesistence.entity.data.CoreStock
-//import com.dhamma.pesistence.entity.data.QCoreData
-//import com.dhamma.pesistence.entity.repo.DataRepo
+//import com.dhamma.pesistence.data.data.CoreData
+//import com.dhamma.pesistence.data.data.CoreStock
+//import com.dhamma.pesistence.data.data.QCoreData
+//import com.dhamma.pesistence.data.repo.DataRepo
 //import com.google.gson.JsonObject
 //import com.learn.ta4j.data.MA
 //import org.apache.ignite.Ignite

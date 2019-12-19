@@ -1,4 +1,4 @@
-package com.dharma.algo.entity.data
+package com.dharma.algo.data.data
 
 import com.google.gson.JsonObject
 

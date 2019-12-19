@@ -1,4 +1,4 @@
-package com.dharma.algo.entity.pojo
+package com.dharma.algo.data.pojo
 
 import java.time.LocalDate
 

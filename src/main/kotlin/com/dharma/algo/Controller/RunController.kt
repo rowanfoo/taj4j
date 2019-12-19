@@ -1,9 +1,8 @@
 package com.dharma.algo.Controller
 
+import com.dharma.algo.data.data.UserData
+import com.dharma.algo.data.pojo.techstr
 import com.google.gson.JsonObject
-import com.learn.ta4j.Algo.*
-import com.learn.ta4j.entity.data.UserData
-import com.learn.ta4j.entity.pojo.techstr
 import org.apache.ignite.Ignite
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*

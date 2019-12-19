@@ -3,11 +3,11 @@ package com.learn.ta4j.data
 import com.dhamma.algodata.algodata.MA
 import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreData
+import com.dharma.algo.utility.Maths
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.google.gson.JsonObject
-import com.learn.ta4j.utility.Maths
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.time.LocalDate

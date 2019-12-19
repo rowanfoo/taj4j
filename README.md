@@ -13,11 +13,12 @@ This project is created specifically for technical traders to:
 Architecture:
 This newest version consist of 3 main modules
 1.	[Repo] baseJ : this is build on SpingBoot JPA , QueryDSL , Postgress
-2.	[In Memory Repo] base : this is image of repo , but is in memory using IGNITE
-3.	[Data Repo] base: this caches all the user customs technical indicators.
-4.	[Logic] taj4j: This is most of the business logic.
-5.	[Controller] wishlist , Oauth , User :  
-6.	[Frontend] AngularJS
+2.	[Elastic]Elastic: this store all the market news in ElasticSearch
+3.	[In Memory Repo] base : this is image of repo , but is in memory using IGNITE
+4.	[Data Repo] base: this caches all the user customs technical indicators.
+5.	[Logic] taj4j: This is most of the business logic.
+6.	[Controller] wishlist , Oauth , User :  
+7.	[Frontend] AngularJS
 
 Infrastructure:
 These apps are hosted on Rancher Kubernetes , running on single worker nodes. All the apps are single instances except for the logic (taj4j) app which is run on 2 instances to improve performance.
@@ -30,12 +31,19 @@ License:
 3.	Ignite
 4.	Spring Boot
 5.	QueryDSL
-6.	Ta4j
-7.	Postgress
-8.	Rancher
-9.	Kubernetes
-10.	Helm
-11.	Jenkins
-12.	Docker Repo
-13.	AngularJS
+6.	OAuth2
+7.	Ta4j
+8.	Postgress
+9.	ElasticSearch
+10.	Rancher
+11.	Kubernetes
+12.	Helm
+13.	Jenkins
+14.	Docker Repo
+15.	AngularJS
 
+Future Development:
+1.	HTTPS Certificates
+2.	User Feedback pages
+3.	More detail management of Comments
+4.	

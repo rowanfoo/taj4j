@@ -1,4 +1,4 @@
-package com.learn.ta4j
+package com.dharma.algo
 
 import com.dhamma.algodata.algodata.RSI
 import com.dhamma.base.ignite.IgniteRepo

@@ -1,4 +1,4 @@
-package com.learn.ta4j.Controller
+package com.dharma.algo.Controller
 
 import com.google.gson.JsonObject
 import com.learn.ta4j.Algo.*
@@ -17,15 +17,15 @@ class RunController {
     @Autowired
     lateinit var ignite: Ignite
     @Autowired
-    lateinit var volume: VolumeX
+    lateinit var volume: com.dharma.algo.Algo.VolumeX
     @Autowired
-    lateinit var pricefall: Pricefall
+    lateinit var pricefall: com.dharma.algo.Algo.Pricefall
     @Autowired
-    lateinit var fallPeriod: FallPeriod
+    lateinit var fallPeriod: com.dharma.algo.Algo.FallPeriod
     @Autowired
-    lateinit var rsialgo: RSIAlgo
+    lateinit var rsialgo: com.dharma.algo.Algo.RSIAlgo
     @Autowired
-    lateinit var maalgo: MAalog
+    lateinit var maalgo: com.dharma.algo.Algo.MAalog
 
 
     @GetMapping("/")

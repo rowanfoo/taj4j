@@ -1,4 +1,4 @@
-package com.learn.ta4j.utility
+package com.dharma.algo.utility
 
 import com.dhamma.pesistence.entity.data.CoreStock
 import com.learn.ta4j.entity.pojo.Stock

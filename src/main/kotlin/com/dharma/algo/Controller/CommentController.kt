@@ -1,4 +1,4 @@
-package com.learn.ta4j.Controller
+package com.dharma.algo.Controller
 
 import com.dhamma.pesistence.entity.data.Comment
 import com.dhamma.pesistence.entity.data.QComment

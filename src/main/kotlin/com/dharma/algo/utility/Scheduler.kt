@@ -1,4 +1,4 @@
-package com.learn.ta4j.utility
+package com.dharma.algo.utility
 
 import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreData

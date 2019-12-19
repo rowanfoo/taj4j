@@ -1,4 +1,4 @@
-package com.learn.ta4j.Controller
+package com.dharma.algo.Controller
 
 import com.dhamma.pesistence.entity.data.Fundamental
 import com.dhamma.pesistence.entity.data.QFundamental

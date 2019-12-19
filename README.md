@@ -21,7 +21,7 @@ This newest version consist of 3 main modules
 7.	[Frontend] AngularJS
 
 Infrastructure:
-These apps are hosted on Rancher Kubernetes , running on single worker nodes. All the apps are single instances except for the logic (taj4j) app which is run on 2 instances to improve performance.
+These apps are hosted on Rancher Kubernetes , running on single worker nodes. All the apps are single instances except for the logic (taj4j) app which runs on 2 instances to improve performance.
 All apps uses Spring Boot Actuator , to generate heartbeats to Rancher, if in any instance that an apps dies , it will be automatically be restarted by Rancher.
 All codes are build and deploy by Jenkins , subsequently Helm chart is used to deploy apps into Rancher.
 
@@ -46,4 +46,4 @@ Future Development:
 1.	HTTPS Certificates
 2.	User Feedback pages
 3.	More detail management of Comments
-4.	
+4.	Adding more technical Indicators

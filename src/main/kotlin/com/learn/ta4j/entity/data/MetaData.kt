@@ -102,19 +102,19 @@ public class MetaData {
         params.addProperty("mode", "price")
         params.addProperty("code", code)
         var maprice = ma.getCode(params)
-        map.put("50ma", Maths.percent(todayPrice, maprice).toString())
+        map.put("fifty", Maths.percent(todayPrice, maprice).toString())
 
         params.addProperty("ma", "100")
         maprice = ma.getCode(params)
-        map.put("100ma", Maths.percent(todayPrice, maprice).toString())
+        map.put("onehundred", Maths.percent(todayPrice, maprice).toString())
 
         params.addProperty("ma", "200")
         maprice = ma.getCode(params)
-        map.put("200ma", Maths.percent(todayPrice, maprice).toString())
+        map.put("twohundred", Maths.percent(todayPrice, maprice).toString())
 
         params.addProperty("ma", "20")
         maprice = ma.getCode(params)
-        map.put("20ma", Maths.percent(todayPrice, maprice).toString())
+        map.put("twenty", Maths.percent(todayPrice, maprice).toString())
         return map
 
     }

@@ -1,4 +1,4 @@
-package com.learn.ta4j.entity.data
+package com.dharma.algo.entity.data
 
 import com.google.gson.JsonObject
 

@@ -1,4 +1,4 @@
-package com.learn.ta4j.Controller
+package com.dharma.algo.Controller
 
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.learn.ta4j.data.MetaData

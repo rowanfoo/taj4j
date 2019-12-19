@@ -1,4 +1,4 @@
-package com.learn.ta4j.Algo
+package com.dharma.algo.Algo
 
 
 //public class Wishlist (var codes:List<String>) {

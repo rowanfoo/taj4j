@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bms-security-stg-deployment
+  namespace: algo
+  labels:
+    app: algo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: algo-app
+  template:
+    metadata:
+      labels:
+        app: algo-app
+    spec:
+      containers:
+        - name: algo-app
+          image: rowanf/bms-security:9
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: postgress
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              port: 8080
+              path: /bms/security/actuator/health
+            initialDelaySeconds: 40
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              port: 8080
+              path: /bms/security/actuator/health
+            initialDelaySeconds: 100
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+---
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: algo-app-nodeport
+  namespace: bms
+spec:
+  selector:
+    app: algo-app
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30000
+      protocol: TCP
+
+

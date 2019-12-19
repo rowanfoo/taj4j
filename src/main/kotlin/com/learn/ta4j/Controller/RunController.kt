@@ -52,7 +52,6 @@ class RunController {
         return maalgo.process(a)
     }
 
-
     @GetMapping("/vol")
     fun vol(@RequestParam sectorparam: Optional<String>): List<techstr> {
         var content = JsonObject()
@@ -79,7 +78,6 @@ class RunController {
         return fallPeriod.process(content)
     }
 
-
     @GetMapping("/falllong")
     fun falllong(): List<techstr> {
         var content = JsonObject()
@@ -89,7 +87,6 @@ class RunController {
 
         return fallPeriod.process(content)
     }
-
 
     @GetMapping("/abc")
     fun data() {
@@ -119,7 +116,6 @@ class RunController {
         var tech = rsialgo.process(a)
         return tech
     }
-
 
     @GetMapping("/falldaily/{algo}")
     fun price(@PathVariable algo: String, @RequestParam sectorparam: Optional<String>): List<techstr> {

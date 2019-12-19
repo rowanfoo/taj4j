@@ -1,4 +1,4 @@
-package com.learn.ta4j
+package com.dharma.algo
 
 import org.junit.Test
 import org.junit.runner.RunWith

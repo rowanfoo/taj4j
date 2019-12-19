@@ -1,4 +1,4 @@
-package com.learn.ta4j.entity.pojo
+package com.dharma.algo.entity.pojo
 
 import java.time.LocalDate
 

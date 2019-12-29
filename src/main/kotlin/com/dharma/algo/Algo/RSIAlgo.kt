@@ -1,8 +1,10 @@
 package com.dharma.algo.Algo
 
-import com.dhamma.algodata.algodata.RSI
 import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreStock
+import com.dhamma.service.algodata.CoreDataService
+import com.dhamma.service.algodata.NewsService
+import com.dhamma.service.algodata.RSI
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.utility.TechStrUtility
@@ -22,6 +24,12 @@ class RSIAlgo {
     @Autowired
     lateinit var rsialgo: RSI
 
+    @Autowired
+    lateinit var newsService: NewsService
+
+    @Autowired
+    lateinit var coreDataService: CoreDataService
+
     fun process(data: JsonObject): List<techstr> {
         var list = mutableListOf<techstr>()
         var rsidata = data.get("rsi").asInt
@@ -29,6 +37,7 @@ class RSIAlgo {
         var usertop = data.get("sector").asString
 
         var cache = rsialgo.getCache(data)
+        var date = coreDataService.today("BHP.AX").date
 
         println("----RSI----SIZE ---------${cache.size()}------------vs ------------------------")
 
@@ -42,6 +51,13 @@ class RSIAlgo {
                     tech.stock = Stock(stk.code, sector, stk.name)
                     list.add(tech)
                 }
+
+                //
+                var a = JsonObject()
+                a.addProperty("code", stk.code)
+                a.addProperty("date", date.toString())
+                tech.news = newsService.getCode(a)
+
             }
         }
         return list

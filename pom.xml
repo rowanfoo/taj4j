@@ -246,7 +246,7 @@
                         </auth>
                     </to>
                     <!--                    <container>-->
-                    <!--                        <mainClass>com.learn.ta4j.Ta4jApplication</mainClass>-->
+                    <!--                        <mainClass>com.dharma.algo.Ta4jApplication</mainClass>-->
                     <!--                    </container>-->
 
                 </configuration>

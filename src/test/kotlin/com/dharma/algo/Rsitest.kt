@@ -1,8 +1,8 @@
 package com.dharma.algo
 
-import com.dhamma.algodata.algodata.RSI
 import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreData
+import com.dhamma.service.algodata.RSI
 import com.google.gson.JsonObject
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,7 +23,7 @@ class Rsitest {
         var content = JsonObject()
         content.addProperty("code", "BSL.AX")
         //   content.addProperty("time", 14)
-       // rsi.process(content)
+        // rsi.process(content)
 
 
     }

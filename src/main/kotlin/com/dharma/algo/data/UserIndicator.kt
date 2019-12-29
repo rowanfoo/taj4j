@@ -1,4 +1,4 @@
-package com.dharma.algo.data.data
+package com.dharma.algo.data
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject

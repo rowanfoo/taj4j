@@ -1,8 +1,8 @@
 package com.dharma.algo.Algo
 
-import com.dhamma.algodata.algodata.MA
 import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreStock
+import com.dhamma.service.algodata.MA
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.utility.DataUtility

@@ -1,6 +1,6 @@
 package com.dharma.algo.Controller
 
-import com.dharma.algo.data.data.UserData
+import com.dharma.algo.data.UserData
 import com.dharma.algo.data.pojo.techstr
 import com.google.gson.JsonObject
 import org.apache.ignite.Ignite

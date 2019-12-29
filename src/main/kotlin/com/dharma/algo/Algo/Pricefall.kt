@@ -1,8 +1,8 @@
 package com.dharma.algo.Algo
 
 import com.dhamma.base.ignite.IgniteRepo
-import com.dhamma.pesistence.entity.data.CoreData
 import com.dhamma.pesistence.entity.data.CoreStock
+import com.dhamma.service.algodata.CoreDataService
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.utility.DataUtility
@@ -13,10 +13,15 @@ import org.springframework.stereotype.Component
 
 @Component
 class Pricefall {
-    @Autowired
-    lateinit var ignitecache: IgniteRepo<CoreData>
+    //    @Autowired
+//    lateinit var ignitecache: IgniteRepo<CoreData>
     @Autowired
     lateinit var ignitecachestock: IgniteRepo<CoreStock>
+
+
+    @Autowired
+    lateinit var coreDataService: CoreDataService
+
 
     fun process(data: JsonObject): List<techstr> {
 
@@ -26,8 +31,8 @@ class Pricefall {
         println("--------------fall date  ${fallpercent}----------------------")
         //this is only to get today stock  , as stock could be on SAT or SUN
         var date = DataUtility.todayData("BHP.AX").date
-
-        var querydata = ignitecache.values(" where  date=? and changepercent < ?", arrayOf(date.toString(), fallpercent))
+//        var querydata = ignitecache.values(" where  date=? and changepercent < ?", arrayOf(date.toString(), fallpercent))
+        var querydata = coreDataService.changePercentlt(date.toString(), fallpercent)
 
         return querydata.filter {
             var stk = ignitecachestock.get(it.code)

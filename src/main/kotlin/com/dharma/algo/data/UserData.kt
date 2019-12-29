@@ -1,4 +1,4 @@
-package com.dharma.algo.data.data
+package com.dharma.algo.data
 
 import com.google.gson.JsonObject
 
@@ -24,8 +24,8 @@ object UserData {
 
     fun downperiodalgo(): DownPeriodAlgo {
         var a = JsonObject()
-        a.addProperty("key_downPeriod", UserData.percentperiod.toString())
-        a.addProperty("fall_downPeriod", UserData.percentperiodfall.toString())
+        a.addProperty("key_downPeriod", percentperiod.toString())
+        a.addProperty("fall_downPeriod", percentperiodfall.toString())
         return DownPeriodAlgo(a)
     }
 

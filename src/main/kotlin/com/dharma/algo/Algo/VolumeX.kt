@@ -1,9 +1,10 @@
 package com.dharma.algo.Algo
 
-import com.dhamma.algodata.algodata.VolumeMA
 import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreData
 import com.dhamma.pesistence.entity.data.CoreStock
+import com.dhamma.service.algodata.CoreDataService
+import com.dhamma.service.algodata.VolumeMA
 import com.dharma.algo.ConvertUtily
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
@@ -15,11 +16,15 @@ import org.springframework.stereotype.Component
 @Component
 class VolumeX {
 
-    @Autowired
-    lateinit var ignitecache: IgniteRepo<CoreData>
+//    @Autowired
+//    lateinit var ignitecache: IgniteRepo<CoreData>
+
 
     @Autowired
     lateinit var ignite: Ignite
+
+    @Autowired
+    lateinit var coreDataService: CoreDataService
 
     @Autowired
     lateinit var stocklist: List<String>
@@ -45,8 +50,9 @@ class VolumeX {
         var stocks = ConvertUtily.filterTop(ignitecachestock, usersector)
 
         stocks.keys.forEach {
-            var querydata = ignitecache.values(" where code=?  order by date desc  LIMIT ? ", arrayOf(it, "1"))
-            var coreData = querydata.first()
+            //            var querydata = ignitecache.values(" where code=?  order by date desc  LIMIT ? ", arrayOf(it, "1"))
+//            var coreData = querydata.first()
+            var coreData = coreDataService.today(it)
             var date = coreData.date
             var volume = coreData.volume
             var avgvol = cache3.get(it)

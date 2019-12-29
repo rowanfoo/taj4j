@@ -1,8 +1,8 @@
-package com.learn.ta4j.data
+package com.dharma.algo.data;
 
-import com.dhamma.algodata.algodata.MA
-import com.dhamma.base.ignite.IgniteRepo
-import com.dhamma.pesistence.entity.data.CoreData
+
+import com.dhamma.service.algodata.CoreDataService
+import com.dhamma.service.algodata.MA
 import com.dharma.algo.utility.Maths
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -15,8 +15,13 @@ import java.time.LocalDate
 
 @Component
 public class MetaData {
+//    @Autowired
+//    lateinit var ignitecache: IgniteRepo<CoreData>
+
+
     @Autowired
-    lateinit var ignitecache: IgniteRepo<CoreData>
+    lateinit var coreDataService: CoreDataService
+
 
     @Autowired
     lateinit var ma: MA
@@ -63,15 +68,21 @@ public class MetaData {
         var counter = 0
         var map = mutableMapOf<String, String>()
 
-        var today = ignitecache.values(" where code=?   order by date desc limit ?  ", arrayOf(code, "1"))
-        var todayPrice = today[0].close
+//        var today = ignitecache.values(" where code=?   order by date desc limit ?  ", arrayOf(code, "1"))
+        coreDataService
+
+        var today = coreDataService.today(code)
+
+//        var todayPrice = today[0].close
+        var todayPrice = today.close
         var dates = listOf<LocalDate>(LocalDate.now().minusYears(1), LocalDate.now().minusYears(2))
         dates.forEach {
-            var series = ignitecache.values(" where code=?  and date > ? order by date asc  ", arrayOf(code, it.toString()))
-            var obj = series[0]
-            var OneYearPrice = series[0].close
-            if (counter == 0) map.put("oneyear", Maths.percent(todayPrice, OneYearPrice).toString())
-            else map.put("twoyear", Maths.percent(todayPrice, OneYearPrice).toString())
+            //            var series = ignitecache.values(" where code=?  and date > ? order by date asc  ", arrayOf(code, it.toString()))
+            var series = coreDataService.dategt(code, it.toString())
+//            var obj = series[0]
+            var oneYearPrice = series.first().close
+            if (counter == 0) map.put("oneyear", Maths.percent(todayPrice, oneYearPrice).toString())
+            else map.put("twoyear", Maths.percent(todayPrice, oneYearPrice).toString())
             counter++
 
         }
@@ -84,8 +95,8 @@ public class MetaData {
         var mapper = ObjectMapper()
 
         var map = mutableMapOf<String, String>()
-        var today = ignitecache.values(" where code=?   order by date desc limit ?  ", arrayOf(code, "1"))
-        var todaychange = today[0].changepercent
+        var today = coreDataService.today(code)
+        var todaychange = today.changepercent
         map.put("change", todaychange.toString())
         return map
 
@@ -94,8 +105,8 @@ public class MetaData {
     fun ma(code: String): Map<String, String> {
         var map = mutableMapOf<String, String>()
         map.put("code", code)
-        var today = ignitecache.values(" where code=?   order by date desc limit ?  ", arrayOf(code, "1"))
-        var todayPrice = today[0].close
+        var today = coreDataService.today(code)
+        var todayPrice = today.close
 
         var params = JsonObject()
         params.addProperty("ma", "50")

@@ -51,13 +51,11 @@ class RSIAlgo {
                     tech.stock = Stock(stk.code, sector, stk.name)
                     list.add(tech)
                 }
-
                 //
                 var a = JsonObject()
                 a.addProperty("code", stk.code)
                 a.addProperty("date", date.toString())
                 tech.news = newsService.getCode(a)
-
             }
         }
         return list

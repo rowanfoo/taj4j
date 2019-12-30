@@ -78,7 +78,9 @@ public class MetaData {
         var dates = listOf<LocalDate>(LocalDate.now().minusYears(1), LocalDate.now().minusYears(2))
         dates.forEach {
             //            var series = ignitecache.values(" where code=?  and date > ? order by date asc  ", arrayOf(code, it.toString()))
+            println("------------$code----------------${it.toString()}----")
             var series = coreDataService.dategt(code, it.toString())
+            println("------------$code----------------${series.size}----")
 //            var obj = series[0]
             var oneYearPrice = series.first().close
             if (counter == 0) map.put("oneyear", Maths.percent(todayPrice, oneYearPrice).toString())

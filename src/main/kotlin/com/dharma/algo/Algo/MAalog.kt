@@ -2,10 +2,11 @@ package com.dharma.algo.Algo
 
 import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreStock
+import com.dhamma.service.algodata.CoreDataService
 import com.dhamma.service.algodata.MA
+import com.dhamma.service.algodata.NewsService
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
-import com.dharma.algo.utility.DataUtility
 import com.dharma.algo.utility.Maths
 import com.dharma.algo.utility.TechStrUtility
 import com.google.gson.JsonObject
@@ -21,15 +22,23 @@ class MAalog {
     lateinit var ma: MA
     @Autowired
     lateinit var ignitecachestock: IgniteRepo<CoreStock>
+    @Autowired
+    lateinit var newsService: NewsService
+
+    @Autowired
+    lateinit var coreDataService: CoreDataService
 
     fun process(data: JsonObject): List<techstr> {
         var percent = data.get("percent").asDouble
         var usertop = data.get("sector").asString
         var array: IgniteCache<String, Double> = ma.getCache(data)
         var list = mutableListOf<techstr>()
-
+        var date = coreDataService.today("BHP.AX").date
         array.forEach {
-            var today = DataUtility.todayData(it.key).close
+
+            //            var today = DataUtility.todayData(it.key).close
+
+            var today = coreDataService.today(it.key).close
             var value = Maths.percent(today, it.value)
 
             if (value < percent) {
@@ -41,6 +50,13 @@ class MAalog {
                     tech.stock = Stock(stk.code, sector, stk.name)
                     list.add(tech)
                 }
+
+                var a = JsonObject()
+                a.addProperty("code", stk.code)
+                a.addProperty("date", date.toString())
+                tech.news = newsService.getCode(a)
+
+
             }
         }
         return list

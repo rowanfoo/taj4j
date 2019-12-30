@@ -1,9 +1,9 @@
 package com.dharma.algo.Algo
 
 import com.dhamma.base.ignite.IgniteRepo
-import com.dhamma.pesistence.entity.data.CoreData
 import com.dhamma.pesistence.entity.data.CoreStock
 import com.dhamma.service.algodata.CoreDataService
+import com.dhamma.service.algodata.NewsService
 import com.dhamma.service.algodata.VolumeMA
 import com.dharma.algo.ConvertUtily
 import com.dharma.algo.data.pojo.Stock
@@ -36,6 +36,9 @@ class VolumeX {
     @Autowired
     lateinit var volumeMA: VolumeMA
 
+    @Autowired
+    lateinit var newsService: NewsService
+
     fun process(data: JsonObject): List<techstr> {
 
         println("-----------------ALGO----------------volumex---------")
@@ -62,8 +65,15 @@ class VolumeX {
                 var stk = ignitecachestock.get(it)
                 var sector = stk.top ?: ""
                 tech.stock = Stock(stk.code, sector, stk.name)
+                var a = JsonObject()
+                a.addProperty("code", it)
+                a.addProperty("date", date.toString())
+                tech.news = newsService.getCode(a)
                 list.add(tech)
+
             }
+
+
         }
         return list
     }

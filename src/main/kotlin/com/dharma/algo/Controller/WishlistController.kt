@@ -1,6 +1,6 @@
 package com.dharma.algo.Controller
 
-import com.dharma.algo.data.MetaData
+import com.dharma.algo.Algo.MetaData
 import com.fasterxml.jackson.databind.node.ArrayNode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin

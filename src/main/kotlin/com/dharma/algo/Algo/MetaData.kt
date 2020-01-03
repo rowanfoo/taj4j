@@ -1,4 +1,4 @@
-package com.dharma.algo.data;
+package com.dharma.algo.Algo;
 
 
 import com.dhamma.service.algodata.CoreDataService

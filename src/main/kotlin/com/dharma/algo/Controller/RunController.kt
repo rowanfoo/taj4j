@@ -34,9 +34,7 @@ class RunController {
 
     @GetMapping("/ma/{ma}")
     fun ma(@PathVariable ma: String, sectorparam: Optional<String>): List<techstr> {
-        var content = JsonObject()
-        content.addProperty("ma", UserData.volumema)
-        content.addProperty("percent", UserData.volumex)
+
         var (arg1, operator, arg2) = getThreeElems(ma)
         println("---------------MA-----$arg1--------$arg2-")
 

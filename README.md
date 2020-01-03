@@ -20,6 +20,19 @@ This newest version consist of 3 main modules
 6.	[Controller] wishlist , Oauth , User :  
 7.	[Frontend] AngularJS
 
+Controllers
+-------------
+AlgoData(logic for algo)
+------------
+Caches(Ignite)
+------------
+Services
+-------------
+Persistence(JPA)
+---------------
+DB
+--------------
+
 Infrastructure:
 These apps are hosted on Rancher Kubernetes , running on single worker nodes. All the apps are single instances except for the logic (taj4j) app which runs on 2 instances to improve performance.
 All apps uses Spring Boot Actuator , to generate heartbeats to Rancher, if in any instance that an apps dies , it will be automatically be restarted by Rancher.

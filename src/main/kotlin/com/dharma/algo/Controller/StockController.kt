@@ -1,7 +1,7 @@
 package com.dharma.algo.Controller
 
 import com.dhamma.pesistence.entity.data.CoreStock
-import com.dharma.algo.data.MetaData
+import com.dharma.algo.Algo.MetaData
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping

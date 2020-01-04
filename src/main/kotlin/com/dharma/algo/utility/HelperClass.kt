@@ -17,13 +17,13 @@ object TechStrUtility {
     }
 
     fun filtersector(sector: String): (CoreStock) -> Boolean {
-        println("------------filtersector 1  $sector--------")
+        //  println("------------filtersector 1  $sector--------")
         lateinit var tech: (CoreStock) -> Boolean
-        println("------------filtersector 2--------")
+        //println("------------filtersector 2--------")
         if (sector == "100") tech = { it -> it.top == "100" || it.top == "50" }
         if (sector == "200") tech = { it -> it.top == "100" || it.top == "50" || it.top == "200" }
         if (sector == "300") tech = { it -> it.top == "100" || it.top == "50" || it.top == "200" || it.top == "300" }
-        println("------------filtersector 1  $tech--------")
+        // println("------------filtersector 1  $tech--------")
 
         return tech
 

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
-@ComponentScan(basePackages = ["com.dhamma.base.ignite", "com.dharma.algo", "com.dhamma.pesistence", "com.dhamma.service"])
+@ComponentScan(basePackages = ["com.dhamma.base.ignite", "com.dharma.algo", "com.dhamma.pesistence", "com.dhamma.ignitedata"])
 @EnableScheduling
 
 class Ta4jApplication : CommandLineRunner {

@@ -1,6 +1,5 @@
 package com.dharma.algo.Controller
 
-import com.dharma.algo.data.UserData
 import com.dharma.algo.data.pojo.techstr
 import com.google.gson.JsonObject
 import org.apache.ignite.Ignite
@@ -49,12 +48,17 @@ class RunController {
         return maalgo.process(a)
     }
 
-    @GetMapping("/vol")
-    fun vol(@RequestParam sectorparam: Optional<String>): List<techstr> {
+    @GetMapping("/volumex/{algo}")
+    fun vol(@PathVariable algo: String, @RequestParam sectorparam: Optional<String>): List<techstr> {
+        var (arg1, operator, arg2) = getThreeElems(algo)
         var content = JsonObject()
-        content.addProperty("volumema", UserData.volumema)
-        content.addProperty("volumex", UserData.volumex)
+//        content.addProperty("volumema", UserData.volumema)
+//        content.addProperty("volumex", UserData.volumex)
 
+        content.addProperty("volumema", arg2)
+        content.addProperty("volumex", arg1)
+
+        println("---------------MA----vola-$arg2------volx--$arg1-")
 
         lateinit var sector: String;
         if (!sectorparam.isPresent) content.addProperty("sector", "300")

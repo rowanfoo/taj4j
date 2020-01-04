@@ -1,10 +1,10 @@
 package com.dharma.algo.Algo
 
 import com.dhamma.base.ignite.IgniteRepo
+import com.dhamma.ignitedata.service.CoreDataIgniteService
+import com.dhamma.ignitedata.service.NewsIgniteService
+import com.dhamma.ignitedata.service.VolumeMaIgniteService
 import com.dhamma.pesistence.entity.data.CoreStock
-import com.dhamma.service.algodata.CoreDataService
-import com.dhamma.service.algodata.NewsService
-import com.dhamma.service.algodata.VolumeMA
 import com.dharma.algo.ConvertUtily
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
@@ -24,7 +24,7 @@ class VolumeX {
     lateinit var ignite: Ignite
 
     @Autowired
-    lateinit var coreDataService: CoreDataService
+    lateinit var coreDataIgniteService: CoreDataIgniteService
 
     @Autowired
     lateinit var stocklist: List<String>
@@ -34,10 +34,10 @@ class VolumeX {
 
 
     @Autowired
-    lateinit var volumeMA: VolumeMA
+    lateinit var volumeMaIgniteService: VolumeMaIgniteService
 
     @Autowired
-    lateinit var newsService: NewsService
+    lateinit var newsIgniteService: NewsIgniteService
 
     fun process(data: JsonObject): List<techstr> {
 
@@ -47,7 +47,7 @@ class VolumeX {
         var usersector = data.get("sector").asString
         var list = mutableListOf<techstr>()
 
-        var cache3 = volumeMA.getCache(data)
+        var cache3 = volumeMaIgniteService.getCache(data)
         println("-----------------ALGO----volumex--done----${cache3.size()}---")
 
         var stocks = ConvertUtily.filterTop(ignitecachestock, usersector)
@@ -55,12 +55,12 @@ class VolumeX {
         stocks.keys.forEach {
             //            var querydata = ignitecache.values(" where code=?  order by date desc  LIMIT ? ", arrayOf(it, "1"))
 //            var coreData = querydata.first()
-            var coreData = coreDataService.today(it)
+            var coreData = coreDataIgniteService.today(it)
             var date = coreData.date
             var volume = coreData.volume
             var avgvol = cache3.get(it)
             if ((volume / avgvol) > volumex) {
-                println("-----------------ALGO----volumex--selected ----${(volume / avgvol)}----vs $volumex-------------$it")
+                println("-----------------ALGO----volumex--selected ----${(volume / avgvol)}----$volume ---vs -----$avgvol------vs $volumex-------------$it")
                 var tech = techstr(it, date, "vol", "volume   ${"%.2f".format((coreData.volume / avgvol))}  **  ${"%.2f".format(coreData.changepercent)}")
                 var stk = ignitecachestock.get(it)
                 var sector = stk.top ?: ""
@@ -68,7 +68,7 @@ class VolumeX {
                 var a = JsonObject()
                 a.addProperty("code", it)
                 a.addProperty("date", date.toString())
-                tech.news = newsService.getCode(a)
+                tech.news = newsIgniteService.getCode(a)
                 list.add(tech)
 
             }

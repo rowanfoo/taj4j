@@ -1,8 +1,8 @@
 package com.dharma.algo.Algo;
 
 
-import com.dhamma.service.algodata.CoreDataService
-import com.dhamma.service.algodata.MA
+import com.dhamma.ignitedata.service.CoreDataIgniteService
+import com.dhamma.ignitedata.service.MaIgniteService
 import com.dharma.algo.utility.Maths
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -20,11 +20,12 @@ public class MetaData {
 
 
     @Autowired
-    lateinit var coreDataService: CoreDataService
+    lateinit var coreDataIgniteService: CoreDataIgniteService
 
 
     @Autowired
-    lateinit var ma: MA
+    lateinit var maIgniteService: MaIgniteService
+
 
     //    public fun getMetaData(code: List<String>): JsonObject {
     public fun getMetaData(code: List<String>): ArrayNode {
@@ -69,9 +70,9 @@ public class MetaData {
         var map = mutableMapOf<String, String>()
 
 //        var today = ignitecache.values(" where code=?   order by date desc limit ?  ", arrayOf(code, "1"))
-        coreDataService
 
-        var today = coreDataService.today(code)
+
+        var today = coreDataIgniteService.today(code)
 
 //        var todayPrice = today[0].close
         var todayPrice = today.close
@@ -79,7 +80,7 @@ public class MetaData {
         dates.forEach {
             //            var series = ignitecache.values(" where code=?  and date > ? order by date asc  ", arrayOf(code, it.toString()))
             println("------------$code----------------${it.toString()}----")
-            var series = coreDataService.dategt(code, it.toString())
+            var series = coreDataIgniteService.dategt(code, it.toString())
             println("------------$code----------------${series.size}----")
 //            var obj = series[0]
             var oneYearPrice = series.first().close
@@ -97,7 +98,7 @@ public class MetaData {
         var mapper = ObjectMapper()
 
         var map = mutableMapOf<String, String>()
-        var today = coreDataService.today(code)
+        var today = coreDataIgniteService.today(code)
         var todaychange = today.changepercent
         map.put("change", todaychange.toString())
         return map
@@ -107,26 +108,26 @@ public class MetaData {
     fun ma(code: String): Map<String, String> {
         var map = mutableMapOf<String, String>()
         map.put("code", code)
-        var today = coreDataService.today(code)
+        var today = coreDataIgniteService.today(code)
         var todayPrice = today.close
 
         var params = JsonObject()
         params.addProperty("ma", "50")
         params.addProperty("mode", "price")
         params.addProperty("code", code)
-        var maprice = ma.getCode(params)
+        var maprice = maIgniteService.getCode(params)
         map.put("fifty", Maths.percent(todayPrice, maprice).toString())
 
         params.addProperty("ma", "100")
-        maprice = ma.getCode(params)
+        maprice = maIgniteService.getCode(params)
         map.put("onehundred", Maths.percent(todayPrice, maprice).toString())
 
         params.addProperty("ma", "200")
-        maprice = ma.getCode(params)
+        maprice = maIgniteService.getCode(params)
         map.put("twohundred", Maths.percent(todayPrice, maprice).toString())
 
         params.addProperty("ma", "20")
-        maprice = ma.getCode(params)
+        maprice = maIgniteService.getCode(params)
         map.put("twenty", Maths.percent(todayPrice, maprice).toString())
         return map
 

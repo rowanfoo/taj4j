@@ -1,10 +1,10 @@
 package com.dharma.algo.Algo
 
 import com.dhamma.base.ignite.IgniteRepo
+import com.dhamma.ignitedata.service.CoreDataIgniteService
+import com.dhamma.ignitedata.service.MaIgniteService
+import com.dhamma.ignitedata.service.NewsIgniteService
 import com.dhamma.pesistence.entity.data.CoreStock
-import com.dhamma.service.algodata.CoreDataService
-import com.dhamma.service.algodata.MA
-import com.dhamma.service.algodata.NewsService
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.utility.Maths
@@ -19,26 +19,26 @@ import java.time.LocalDate
 @Component
 class MAalog {
     @Autowired
-    lateinit var ma: MA
+    lateinit var maIgniteService: MaIgniteService
     @Autowired
     lateinit var ignitecachestock: IgniteRepo<CoreStock>
     @Autowired
-    lateinit var newsService: NewsService
+    lateinit var newsIgniteService: NewsIgniteService
 
     @Autowired
-    lateinit var coreDataService: CoreDataService
+    lateinit var coreDataIgniteService: CoreDataIgniteService
 
     fun process(data: JsonObject): List<techstr> {
         var percent = data.get("percent").asDouble
         var usertop = data.get("sector").asString
-        var array: IgniteCache<String, Double> = ma.getCache(data)
+        var array: IgniteCache<String, Double> = maIgniteService.getCache(data)
         var list = mutableListOf<techstr>()
-        var date = coreDataService.today("BHP.AX").date
+        var date = coreDataIgniteService.today("BHP.AX").date
         array.forEach {
 
             //            var today = DataUtility.todayData(it.key).close
 
-            var today = coreDataService.today(it.key).close
+            var today = coreDataIgniteService.today(it.key).close
             var value = Maths.percent(today, it.value)
 
             if (value < percent) {
@@ -54,7 +54,7 @@ class MAalog {
                 var a = JsonObject()
                 a.addProperty("code", stk.code)
                 a.addProperty("date", date.toString())
-                tech.news = newsService.getCode(a)
+                tech.news = newsIgniteService.getCode(a)
 
 
             }

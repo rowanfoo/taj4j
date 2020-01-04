@@ -1,8 +1,8 @@
 package com.dharma.algo
 
 import com.dhamma.base.ignite.IgniteRepo
+import com.dhamma.ignitedata.service.RSiIgniteService
 import com.dhamma.pesistence.entity.data.CoreData
-import com.dhamma.service.algodata.RSI
 import com.google.gson.JsonObject
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest
 class Rsitest {
     @Autowired
-    lateinit var rsi: RSI
+    lateinit var rSiIgniteService: RSiIgniteService
     @Autowired
     lateinit var ignitecache: IgniteRepo<CoreData>
 

@@ -1,7 +1,7 @@
 package com.dharma.algo.Controller
 
+import com.dhamma.ignitedata.service.CoreDataIgniteService
 import com.dhamma.pesistence.entity.data.CoreData
-import com.dhamma.service.algodata.CoreDataService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,7 +20,8 @@ class DataController {
 //    lateinit var ignitecache: IgniteRepo<CoreData>
 
     @Autowired
-    lateinit var coreDataService: CoreDataService
+    lateinit var coreDataIgniteService: CoreDataIgniteService
+
 
 
 //    @GetMapping("/dategt")
@@ -30,7 +31,7 @@ class DataController {
 //    fun dategt(@RequestParam date: String, code: String): Iterable<CoreData> = ignitecache.values(" where code=?  and  date > ?  ", arrayOf(code, date))
 
     @GetMapping("/dategt")
-    fun dategt(@RequestParam date: String, code: String): Iterable<CoreData> = coreDataService.dategt(code, date)
+    fun dategt(@RequestParam date: String, code: String): Iterable<CoreData> = coreDataIgniteService.dategt(code, date)
 
 
 }

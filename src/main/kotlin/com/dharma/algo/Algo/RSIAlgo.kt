@@ -1,10 +1,10 @@
 package com.dharma.algo.Algo
 
 import com.dhamma.base.ignite.IgniteRepo
+import com.dhamma.ignitedata.service.CoreDataIgniteService
+import com.dhamma.ignitedata.service.NewsIgniteService
+import com.dhamma.ignitedata.service.RSiIgniteService
 import com.dhamma.pesistence.entity.data.CoreStock
-import com.dhamma.service.algodata.CoreDataService
-import com.dhamma.service.algodata.NewsService
-import com.dhamma.service.algodata.RSI
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.utility.TechStrUtility
@@ -22,13 +22,14 @@ class RSIAlgo {
     @Autowired
     lateinit var ignitecachestock: IgniteRepo<CoreStock>
     @Autowired
-    lateinit var rsialgo: RSI
+    lateinit var rSiIgniteService: RSiIgniteService
 
     @Autowired
-    lateinit var newsService: NewsService
+    lateinit var newsIgniteService: NewsIgniteService
 
     @Autowired
-    lateinit var coreDataService: CoreDataService
+    lateinit var coreDataIgniteService: CoreDataIgniteService
+
 
     fun process(data: JsonObject): List<techstr> {
         var list = mutableListOf<techstr>()
@@ -36,8 +37,8 @@ class RSIAlgo {
         var rsialgodata = data.get("rsialgo").asInt
         var usertop = data.get("sector").asString
 
-        var cache = rsialgo.getCache(data)
-        var date = coreDataService.today("BHP.AX").date
+        var cache = rSiIgniteService.getCache(data)
+        var date = coreDataIgniteService.today("BHP.AX").date
 
         println("----RSI----SIZE ---------${cache.size()}------------vs ------------------------")
 
@@ -55,7 +56,7 @@ class RSIAlgo {
                 var a = JsonObject()
                 a.addProperty("code", stk.code)
                 a.addProperty("date", date.toString())
-                tech.news = newsService.getCode(a)
+                tech.news = newsIgniteService.getCode(a)
             }
         }
         return list

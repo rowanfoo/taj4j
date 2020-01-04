@@ -1,10 +1,8 @@
 package com.dharma.algo
 
-import com.dhamma.base.ignite.IgniteRepo
 import com.dhamma.pesistence.entity.data.CoreStock
 import com.dhamma.pesistence.entity.repo.DataRepo
 import com.dhamma.pesistence.entity.repo.StockRepo
-import org.apache.ignite.Ignite
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -81,22 +79,22 @@ class Ta4jApplication : CommandLineRunner {
 //
 //    }
 
-    @Bean
-    fun ignitecachestock(ignite: Ignite): IgniteRepo<CoreStock> {
-
-        println("-----------------LOAD-----STOCK-------ignitecache-------------")
-
-//        var igniterepo = IgniteRepo<CoreData>(ignite, Class.forName("com.dhamma.pesistence.data.data.CoreData").kotlin)
-        var igniterepo = IgniteRepo<CoreStock>(ignite, CoreStock())
-        var list = stockrepo.findAll().forEach {
-            igniterepo.save("${it.code}", it)
-        }
-
-        println("-----------------LOAD---SIZE-----${igniterepo.size()}--------")
-        return return igniterepo
-
-
-    }
+//    @Bean
+//    fun ignitecachestock(ignite: Ignite): IgniteRepo<CoreStock> {
+//
+//        println("-----------------LOAD-----STOCK-------ignitecache-------------")
+//
+////        var igniterepo = IgniteRepo<CoreData>(ignite, Class.forName("com.dhamma.pesistence.data.data.CoreData").kotlin)
+//        var igniterepo = IgniteRepo<CoreStock>(ignite, CoreStock())
+//        var list = stockrepo.findAll().forEach {
+//            igniterepo.save("${it.code}", it)
+//        }
+//
+//        println("-----------------LOAD---SIZE-----${igniterepo.size()}--------")
+//        return return igniterepo
+//
+//
+//    }
 
 
 }

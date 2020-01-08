@@ -52,6 +52,8 @@ class VolumeX {
 
         var stocks = ConvertUtily.filterTop(ignitecachestock, usersector)
 
+        println("-----------------ALGO----volumex--stocks----${stocks.size}---")
+
         stocks.keys.forEach {
             //            var querydata = ignitecache.values(" where code=?  order by date desc  LIMIT ? ", arrayOf(it, "1"))
 //            var coreData = querydata.first()

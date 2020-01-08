@@ -1,5 +1,6 @@
 package com.dharma.algo.Controller
 
+import com.dhamma.ignitedata.utility.CoreDataScheduler
 import com.dharma.algo.data.pojo.techstr
 import com.google.gson.JsonObject
 import org.apache.ignite.Ignite
@@ -156,5 +157,13 @@ class RunController {
         println(" End index: " + m.end())
         println(" Found: " + m.group())
         return Pair(zz.substring(0, m.start()), zz.substring(m.start(), m.end()))
+    }
+
+    @Autowired
+    lateinit var coredatascheduler: CoreDataScheduler
+
+    @GetMapping("/reset")
+    fun reset() {
+        coredatascheduler.ignitecache()
     }
 }

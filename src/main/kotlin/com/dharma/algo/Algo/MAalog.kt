@@ -13,7 +13,6 @@ import com.google.gson.JsonObject
 import org.apache.ignite.IgniteCache
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.time.LocalDate
 
 
 @Component
@@ -43,7 +42,7 @@ class MAalog {
 
             if (value < percent) {
                 println("----ADD------------RSI ---------${it.key}------------vs ---------${it.value}----------------$value---")
-                var tech = techstr(it.key, LocalDate.now(), "MA", "today  ${today}----- : {$value}%)")
+                var tech = techstr(it.key, date, "MA", "today  ${today}----- : {$value}%)")
                 var stk = ignitecachestock.get(it.key)
                 var sector = stk.top ?: ""
                 if ((TechStrUtility.filtersector(usertop))(stk)) {

@@ -12,7 +12,6 @@ import com.google.gson.JsonObject
 import org.apache.ignite.Ignite
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.time.LocalDate
 
 
 @Component
@@ -45,7 +44,7 @@ class RSIAlgo {
         cache.forEach {
             if (it.value.first < rsialgodata && it.value.first != 0.0) {
                 println("----ADD------------RSI ---------${it.key}------------vs ---------${it.value}---------------")
-                var tech = techstr(it.key, LocalDate.now(), "RSI", "RSI  ${it.value.first}----- : (${it.value.second}%)")
+                var tech = techstr(it.key, date, "RSI", "RSI  ${it.value.first}----- : (${it.value.second}%)")
                 var stk = ignitecachestock.get(it.key)
                 var sector = stk.top ?: ""
                 if ((TechStrUtility.filtersector(usertop))(stk)) {

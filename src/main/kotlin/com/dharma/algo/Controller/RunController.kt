@@ -101,6 +101,7 @@ class RunController {
         println("--------TOTAL CACHE--------${cache0.size()}------${cache1.size()}----${cache2.size()}----${cache3.size()}----")
     }
 
+    //14<30
     @GetMapping("/rsi/{algo}")
     fun getbydate(@PathVariable algo: String, sectorparam: Optional<String>): List<techstr> {
         println("------------------------rsi--------$algo---------")

@@ -26,7 +26,9 @@ class CategorysController {
     @GetMapping("/category")
     fun getStocks(): List<String> {
         var queryFactory = JPAQueryFactory(entityManager);
-        return queryFactory.selectDistinct(QCoreStock.coreStock.category).from(QCoreStock.coreStock).fetch().filterNotNull()
+        return queryFactory.selectDistinct(QCoreStock.coreStock.category)
+                .orderBy(QCoreStock.coreStock.category.asc())
+                .from(QCoreStock.coreStock).fetch().filterNotNull()
     }
 
     @GetMapping("/tag/category/{name}")

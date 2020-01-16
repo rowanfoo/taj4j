@@ -17,6 +17,13 @@ class FundamentalController {
     @GetMapping("/fundamental/{code}")
     fun getCode(@PathVariable code: String): Fundamental = fundamentalRepo.findOne(QFundamental.fundamental.code.eq(code)).get()
 
+
+    @GetMapping("/fundamental/all/{codes}")
+    fun getCodeAll(@PathVariable codes: String): Iterable<Fundamental> {
+        var result = codes.split(",")
+        return fundamentalRepo.findAll(QFundamental.fundamental.code.`in`(result))
+    }
+
     @PutMapping("/fundamental")
     fun insert(@RequestBody fundamental: Fundamental) {
         println("----insert-------------$fundamental")

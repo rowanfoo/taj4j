@@ -31,12 +31,18 @@ class CategorysController {
                 .from(QCoreStock.coreStock).fetch().filterNotNull()
     }
 
-    @GetMapping("/tag/category/{name}")
+    @GetMapping("/category/tag/{name}")
     fun getCats(@PathVariable name: String): List<String> {
         var queryFactory = JPAQueryFactory(entityManager);
         return queryFactory.selectDistinct(QCoreStock.coreStock.tags).from(QCoreStock.coreStock)
                 .where(QCoreStock.coreStock.category.like("%$name%"))
                 .fetch().filterNotNull()
+    }
+
+
+    @GetMapping("/category/stock/category/{category}/tag/{tag}")
+    fun getTags(@PathVariable category: String, @PathVariable tag: String): List<String> {
+        return stockrepo.findAll(QCoreStock.coreStock.tags.like("%$tag%").and(QCoreStock.coreStock.category.like("%$category%"))).map { it.code }.toList();
     }
 
 }

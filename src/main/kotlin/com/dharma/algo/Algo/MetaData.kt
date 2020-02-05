@@ -39,7 +39,7 @@ public class MetaData {
 
         var list = mutableListOf<JsonNode>()
         var map = mutableMapOf<String, String>()
-        val gamesNode = ObjectMapper().createArrayNode()
+        //val gamesNode = ObjectMapper().createArrayNode()
 
         code.map { it.toUpperCase() }.forEach {
 

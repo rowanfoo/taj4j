@@ -124,7 +124,7 @@ class WishlistService {
             println("---------ZzzZZZee---1--------------")
             var data = coreDataIgniteService.today(it)
             println("---------ZzzZZZee---1--------$data------")
-            (rootNode as ObjectNode).put("price", data.changes)
+            (rootNode as ObjectNode).put("price", data.changepercent)
             (rootNode as ObjectNode).put("volume", data.volume)
             (rootNode as ObjectNode).put("date", data.date.toString())
             println("---------ZzzZZZee---2--------------")

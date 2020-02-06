@@ -1,12 +1,14 @@
 package com.dharma.algo.service
 
 import com.dharma.algo.data.pojo.techstr
+import com.dharma.algo.utility.StringUtility.threeElems
+import com.dharma.algo.utility.StringUtility.twoElems
 import com.google.gson.JsonObject
 import org.apache.ignite.Ignite
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
-import java.util.regex.Pattern
+
 @Component
 class AlgoService {
 
@@ -26,7 +28,7 @@ class AlgoService {
 
     fun ma(ma: String, sectorparam: Optional<String>): List<techstr> {
 
-        var (arg1, operator, arg2) = getThreeElems(ma)
+        var (arg1, operator, arg2) = threeElems(ma)
         println("---------------MA-----$arg1--------$arg2-")
 
         var a = JsonObject()
@@ -41,7 +43,7 @@ class AlgoService {
     }
 
     fun vol(algo: String, sectorparam: Optional<String>): List<techstr> {
-        var (arg1, operator, arg2) = getThreeElems(algo)
+        var (arg1, operator, arg2) = threeElems(algo)
         var content = JsonObject()
         content.addProperty("volumema", arg2)
         content.addProperty("volumex", arg1)
@@ -84,7 +86,7 @@ class AlgoService {
 
     fun rsi(algo: String, sectorparam: Optional<String>): List<techstr> {
         println("------------------------rsi--------$algo---------")
-        var (arg1, operator, arg2) = getThreeElems(algo)
+        var (arg1, operator, arg2) = threeElems(algo)
         println("------------------------rsi--------$arg1-----------$arg2-----")
 
         var a = JsonObject()
@@ -101,7 +103,7 @@ class AlgoService {
 
     fun price(algo: String, sectorparam: Optional<String>): List<techstr> {
         println("---------------------RUN----------------------")
-        var (arg1, arg2) = getTwoElems(algo)
+        var (arg1, arg2) = twoElems(algo)
         var content = JsonObject()
         content.addProperty("price", arg1)
 
@@ -112,29 +114,29 @@ class AlgoService {
         return pricefall.process(content)
     }
 
-    private fun getThreeElems(zz: String): Triple<String, String, String> {
-        val r = Pattern.compile("<|>|=")
-        val m = r.matcher(zz)
-        m.find()
-        println("Start index: " + m.start())
-        println("----------------" + zz.substring(0, m.start()))
-        println("----------------" + zz.substring(m.start(), m.end()))
-        println("----------------" + zz.substring(m.end(), zz.length))
-        println(" End index: " + m.end())
-        println(" Found: " + m.group())
-        return Triple(zz.substring(0, m.start()), zz.substring(m.start(), m.end()), zz.substring(m.end(), zz.length))
-    }
-
-    private fun getTwoElems(zz: String): Pair<String, String> {
-        val r = Pattern.compile("<|>|=")
-        val m = r.matcher(zz)
-        m.find()
-        println("Start index: " + m.start())
-        println("----------------" + zz.substring(0, m.start()))
-        println("----------------" + zz.substring(m.start(), m.end()))
-        println(" End index: " + m.end())
-        println(" Found: " + m.group())
-        return Pair(zz.substring(0, m.start()), zz.substring(m.start(), m.end()))
-    }
+//    private fun getThreeElems(zz: String): Triple<String, String, String> {
+//        val r = Pattern.compile("<|>|=")
+//        val m = r.matcher(zz)
+//        m.find()
+//        println("Start index: " + m.start())
+//        println("----------------" + zz.substring(0, m.start()))
+//        println("----------------" + zz.substring(m.start(), m.end()))
+//        println("----------------" + zz.substring(m.end(), zz.length))
+//        println(" End index: " + m.end())
+//        println(" Found: " + m.group())
+//        return Triple(zz.substring(0, m.start()), zz.substring(m.start(), m.end()), zz.substring(m.end(), zz.length))
+//    }
+//
+//    private fun getTwoElems(zz: String): Pair<String, String> {
+//        val r = Pattern.compile("<|>|=")
+//        val m = r.matcher(zz)
+//        m.find()
+//        println("Start index: " + m.start())
+//        println("----------------" + zz.substring(0, m.start()))
+//        println("----------------" + zz.substring(m.start(), m.end()))
+//        println(" End index: " + m.end())
+//        println(" Found: " + m.group())
+//        return Pair(zz.substring(0, m.start()), zz.substring(m.start(), m.end()))
+//    }
 
 }

@@ -8,6 +8,7 @@ import com.dhamma.pesistence.entity.data.User
 import com.dhamma.pesistence.entity.repo.UserRepo
 import com.dhamma.pesistence.entity.repo.WishlistRepo
 import com.dharma.algo.data.pojo.techstr
+import com.dharma.algo.utility.Json
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
@@ -38,7 +39,7 @@ class WishlistService {
 
     @Autowired
     lateinit var coreDataIgniteService: CoreDataIgniteService
-
+    var mapper = ObjectMapper()
 
     private fun indicatorMap(username: String): Triple<Map<String, techstr>, Map<String, techstr>, Map<String, techstr>> {
         var userconfig = user(username).userConfig
@@ -132,7 +133,7 @@ class WishlistService {
 //            a.addProperty("code", it)
 //            a.addProperty("date", data.date.toString())
 //            (rootNode as ObjectNode).put("news", mapper.convertValue(newsIgniteService.getCode(a), JsonNode::class.java))
-            (rootNode as ObjectNode).put("news", news(it))
+            (rootNode as ObjectNode).put("news", Json.toJson(newsIgniteService.newsToday(it)) )
 
 
             arrayNode.add(rootNode)
@@ -143,32 +144,22 @@ class WishlistService {
 
 
     private fun message(rsilist: Map<String, techstr>, falldailylist: Map<String, techstr>, volumexlist: Map<String, techstr>, code: String): String {
-        println("---------ZzzZZZ---code-----------$code---")
         var message = rsilist.get(code)?.message ?: ""
-        println("---------ZzzZZZ---1-----------$message---")
         message = message + " " + (falldailylist.get(code)?.message ?: "")
-        println("---------ZzzZZZ---2-----------$message---")
         message = message + " " + (volumexlist.get(code)?.message ?: "")
-        println("---------ZzzZZZ---3-----------$message---")
         return message
     }
 
 
-    private fun news(code: String): JsonNode {
-        var mapper = ObjectMapper()
-        println("---------NEWS---code-----------$code---")
-        var data = coreDataIgniteService.today(code)
-
-        var a = JsonObject()
-        a.addProperty("code", code)
-        a.addProperty("date", data.date.toString())
-        println("---------NEWS---code-----------$data---")
-        println("---------NEWS---code-----------${newsIgniteService.getCode(a).size}---")
-
-        return mapper.convertValue(newsIgniteService.getCode(a), JsonNode::class.java)
-
-
-    }
+//    private fun newsToday(code: String): JsonNode {
+//        var mapper = ObjectMapper()
+//        var data = coreDataIgniteService.today(code)
+//
+//        var a = JsonObject()
+//        a.addProperty("code", code)
+//        a.addProperty("date", data.date.toString())
+//        return mapper.convertValue(newsIgniteService.getCode(a), JsonNode::class.java)
+//    }
 
 
     private fun getbydate(@PathVariable algo: String, sectorparam: Optional<String>): List<techstr> {

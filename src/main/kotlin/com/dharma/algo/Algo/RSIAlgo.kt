@@ -32,7 +32,7 @@ class RSIAlgo {
 
     fun process(data: JsonObject): List<techstr> {
         var list = mutableListOf<techstr>()
-        var rsidata = data.get("rsi").asInt
+        //var rsidata = data.get("rsi").asInt
         var rsialgodata = data.get("rsialgo").asInt
         var usertop = data.get("sector").asString
 

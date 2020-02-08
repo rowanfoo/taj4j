@@ -42,7 +42,7 @@ class VolumeX {
     fun process(data: JsonObject): List<techstr> {
 
         println("-----------------ALGO----------------volumex---------")
-        var volumema = data.get("volumema").asInt
+      //  var volumema = data.get("volumema").asInt
         var volumex = data.get("volumex").asDouble
         var usersector = data.get("sector").asString
         var list = mutableListOf<techstr>()

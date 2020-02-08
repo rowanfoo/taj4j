@@ -37,7 +37,7 @@ public class MetaData {
         var mapper = ObjectMapper()
         val arrayNode = mapper.createArrayNode()
 
-        var list = mutableListOf<JsonNode>()
+//        var list = mutableListOf<JsonNode>()
         var map = mutableMapOf<String, String>()
         //val gamesNode = ObjectMapper().createArrayNode()
 
@@ -95,7 +95,7 @@ public class MetaData {
 
 
     fun changePercent(code: String): Map<String, String> {
-        var mapper = ObjectMapper()
+       // var mapper = ObjectMapper()
 
         var map = mutableMapOf<String, String>()
         var today = coreDataIgniteService.today(code)

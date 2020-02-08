@@ -20,7 +20,7 @@ class StockController {
 
     @GetMapping("/stocks")
     fun getStocks(): Set<String> {
-        var list = mutableListOf<String>()
+//        var list = mutableListOf<String>()
         return allStocks.keys
 
     }

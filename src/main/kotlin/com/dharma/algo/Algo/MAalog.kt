@@ -34,9 +34,6 @@ class MAalog {
         var list = mutableListOf<techstr>()
         var date = coreDataIgniteService.today("BHP.AX").date
         array.forEach {
-
-            //            var today = DataUtility.todayData(it.key).close
-
             var today = coreDataIgniteService.today(it.key).close
             var value = Maths.percent(today, it.value)
 
@@ -50,12 +47,9 @@ class MAalog {
                     list.add(tech)
                 }
 
-                var a = JsonObject()
-                a.addProperty("code", stk.code)
-                a.addProperty("date", date.toString())
-                tech.news = newsIgniteService.getCode(a)
-
-
+//                var a = JsonObject()
+//                a.addProperty("code", stk.code)
+//                a.addProperty("date", date.toString())
             }
         }
         return list

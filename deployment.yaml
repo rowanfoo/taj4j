@@ -45,7 +45,7 @@ spec:
 ---
 # service.yaml
 apiVersion: v1
-kind: Service
+kind: service
 metadata:
   name: algo-app-nodeport
   namespace: bms

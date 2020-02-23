@@ -30,7 +30,7 @@ class WishlistController {
     fun getMetaData(@PathVariable stocks: String): Iterable<JsonNode> {
 
         var list = stocks.split(",")
-        var funds = fundamentalService.getAllFundamentalIn(list)
+        var funds = fundamentalService.codes(list)
         var z = metadata.getMetaData(list)
 
 

@@ -1,5 +1,6 @@
 package com.dharma.algo.Controller
 
+import com.dhamma.ignitedata.service.SummaryService
 import com.dhamma.ignitedata.utility.CoreDataScheduler
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.service.AlgoService
@@ -49,7 +50,7 @@ class RunController {
     //14<30
     @GetMapping("/rsi/{algo}")
     fun getbydate(@PathVariable algo: String, sectorparam: Optional<String>): List<techstr> {
-        return  algoService.rsi(algo, sectorparam)
+        return algoService.rsi(algo, sectorparam)
     }
 
     @GetMapping("/falldaily/{algo}")
@@ -85,12 +86,18 @@ class RunController {
 
     @Autowired
     lateinit var coredatascheduler: CoreDataScheduler
+    @Autowired
+    lateinit var summaryService: SummaryService
+
 
     @GetMapping("/reset")
     fun reset() {
         println("-----reset1------")
         coredatascheduler.ignitecache()
         println("-----reset2------")
+        summaryService.updateToday()
+        println("-----reset3------")
+
 
     }
 }

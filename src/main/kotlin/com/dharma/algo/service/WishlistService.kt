@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
-import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
@@ -57,7 +56,9 @@ class WishlistService {
             }
 
             launch {
+                println("---------falldailystring---------------$falldailystring-----")
                 if (falldailystring != null) falldailylist = algoService.price(falldailystring, Optional.empty()).map { it.code to it }.toMap()
+                println("---------falldailystring------size---------${falldailylist.size}-----")
             }
 
             launch {
@@ -133,7 +134,7 @@ class WishlistService {
 //            a.addProperty("code", it)
 //            a.addProperty("date", data.date.toString())
 //            (rootNode as ObjectNode).put("news", mapper.convertValue(newsIgniteService.getCode(a), JsonNode::class.java))
-            (rootNode as ObjectNode).put("news", Json.toJson(newsIgniteService.newsToday(it)) )
+            (rootNode as ObjectNode).put("news", Json.toJson(newsIgniteService.newsToday(it)))
 
 
             arrayNode.add(rootNode)

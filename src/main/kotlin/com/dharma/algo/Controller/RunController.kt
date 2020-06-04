@@ -27,6 +27,7 @@ class RunController {
         return algoService.ma(ma, sectorparam)
     }
 
+    //http://localhost:8080/volumex/60<3
     @GetMapping("/volumex/{algo}")
     fun vol(@PathVariable algo: String, @RequestParam sectorparam: Optional<String>): List<techstr> {
         return algoService.vol(algo, sectorparam)
@@ -47,6 +48,7 @@ class RunController {
         algoService.data()
     }
 
+    //http://localhost:8080/rsi/30<14
     //14<30
     @GetMapping("/rsi/{algo}")
     fun getbydate(@PathVariable algo: String, sectorparam: Optional<String>): List<techstr> {
@@ -100,4 +102,5 @@ class RunController {
 
 
     }
+
 }

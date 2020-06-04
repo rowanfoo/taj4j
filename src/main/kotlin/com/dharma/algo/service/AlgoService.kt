@@ -7,6 +7,7 @@ import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.utility.GJson
 import com.dharma.algo.utility.StringUtility.threeElems
 import com.dharma.algo.utility.StringUtility.twoElems
+import com.google.gson.JsonObject
 import org.apache.ignite.Ignite
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -37,13 +38,13 @@ class AlgoService {
         var (arg1, operator, arg2) = threeElems(ma)
         println("---------------MA-----$arg1--------$arg2-")
 
-        var a = GJson.toGson(mapOf("ma" to arg2 , "percent" to arg1 , "mode" to "price"))
+        var a = GJson.toGson(mapOf("ma" to arg2, "percent" to arg1, "mode" to "price"))
 
         lateinit var sector: String;
         if (!sectorparam.isPresent) a.addProperty("sector", "300")
         else a.addProperty("sector", sectorparam.get())
         //return addNews(maalgo.process(a))
-        return maalgo.process(a) pipe ::addNews  pipe  ::addFundamental
+        return maalgo.process(a) pipe ::addNews pipe ::addFundamental
 
     }
 
@@ -66,7 +67,8 @@ class AlgoService {
 
 //        var tech = volume.process(content)
         // return addNews(volume.process(content))
-        return volume.process(content) pipe ::addNews pipe ::addFundamental
+//        return volume.process(content) pipe ::addNews pipe ::addFundamental
+        return volume.process1(content)
 //        return tech
     }
 
@@ -78,7 +80,9 @@ class AlgoService {
         var content = GJson.toGson(mapOf("sector" to 300, "percent" to 0.05, "time" to "14"))
         // return fallPeriod.process(content)
         //  return addNews(fallPeriod.process(content))
-        return fallPeriod.process(content) pipe ::addNews pipe ::addFundamental
+        //return fallPeriod.process(content) pipe ::addNews pipe ::addFundamental
+        return fallPeriod.process1(content, false, true, false)
+
     }
 
     fun falllong(): List<techstr> {
@@ -109,8 +113,32 @@ class AlgoService {
 //        var tech = rsialgo.process(a)
 //        return tech
         // return addNews(rsialgo.process(a))
+        //  return rsialgo.process(a) pipe ::addNews pipe ::addFundamental
+        return rsialgo.process1(a, true, true, true)
+
+    }
+
+
+    fun rsi1(algo: String, sectorparam: Optional<String>): List<techstr> {
+
+        var a = populateParams(algo, sectorparam)
+
+
         return rsialgo.process(a) pipe ::addNews pipe ::addFundamental
     }
+
+
+    private fun populateParams(algo: String, sectorparam: Optional<String>): JsonObject {
+        var (arg1, operator, arg2) = threeElems(algo)
+
+        var a = GJson.toGson(mapOf("rsi" to arg2, "rsialgo" to arg1))
+        lateinit var sector: String;
+
+        if (!sectorparam.isPresent) a.addProperty("sector", "300")
+        else a.addProperty("sector", sectorparam.get())
+        return a;
+    }
+
 
     fun price(algo: String, sectorparam: Optional<String>): List<techstr> {
         println("---------------------RUN----------------------")

@@ -1,7 +1,7 @@
 package com.dharma.algo.Controller
 
 import com.dhamma.pesistence.service.FundamentalService
-import com.dharma.algo.Algo.MetaData
+import com.dharma.algo.service.algo.MetaData
 import com.dharma.algo.service.WishlistService
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
@@ -47,10 +47,9 @@ class WishlistController {
             (towork as ObjectNode).put("marketcap", it.marketcap)
             (towork as ObjectNode).put("pe", it.pe)
             (towork as ObjectNode).put("yield", it.annualYied)
-            (towork as ObjectNode).put("yearchange", it.yearchange)
+            (towork as ObjectNode).put("yearchange", it.yearchange ?: 0.00)
             map[it.code] = towork
         }
-
 
 
 

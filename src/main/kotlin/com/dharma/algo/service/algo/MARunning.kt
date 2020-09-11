@@ -1,16 +1,6 @@
-package com.dharma.algo.Algo
+package com.dharma.algo.service.algo
 
-import com.dhamma.ignitedata.service.MArunningService
-import com.dhamma.ignitedata.service.MaIgniteService
-import com.dharma.algo.data.pojo.techstr
-import com.google.gson.JsonObject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
-
+/*
 @Component
 class MARunning {
 
@@ -50,19 +40,25 @@ class MARunning {
         var time = data.get("time").asInt
         var number = data.get("number").asInt
         var alls: List<techstr> = mutableListOf<techstr>()
-        runBlocking {
 
+        println("--------MA RUNNING------process--$time--------$number")
+        runBlocking {
+            println("--------MA RUNNING------1")
 
             //            runData(time, number, all)
             runData(time, number, alls)
+            println("--------MA RUNNING------2")
 
         }
+        println("--------MA RUNNING------3")
+
         return alls
 
     }
 
     @Autowired
     lateinit var marunningService: MArunningService
+
     @Autowired
     lateinit var stocklist: List<String>
 
@@ -106,3 +102,4 @@ class MARunning {
 
 
 
+*/

@@ -15,8 +15,14 @@ import org.springframework.test.context.junit4.SpringRunner
 class Rsitest {
     @Autowired
     lateinit var rSiIgniteService: RSiIgniteService
+
     @Autowired
     lateinit var ignitecache: IgniteRepo<CoreData>
+
+
+//    @Autowired
+//    lateinit var rsimanager: RSIManager
+
 
     @Test
     fun contextLoads() {

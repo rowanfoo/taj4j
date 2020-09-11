@@ -1,4 +1,4 @@
-package com.dharma.algo.Algo
+package com.dharma.algo.service.algo
 
 
 //public class Wishlist (var codes:List<String>) {

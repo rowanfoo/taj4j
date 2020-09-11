@@ -1,10 +1,9 @@
-package com.dharma.algo.Algo;
+package com.dharma.algo.service.algo;
 
 
 import com.dhamma.ignitedata.service.CoreDataIgniteService
 import com.dhamma.ignitedata.service.MaIgniteService
 import com.dharma.algo.utility.Maths
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.google.gson.JsonObject
@@ -95,7 +94,7 @@ public class MetaData {
 
 
     fun changePercent(code: String): Map<String, String> {
-       // var mapper = ObjectMapper()
+        // var mapper = ObjectMapper()
 
         var map = mutableMapOf<String, String>()
         var today = coreDataIgniteService.today(code)
@@ -117,6 +116,7 @@ public class MetaData {
         params.addProperty("code", code)
         var maprice = maIgniteService.getCode(params)
         map.put("fifty", Maths.percent(todayPrice, maprice).toString())
+        println("---------MetaData-------------ma------50---------$code---$maprice--")
 
         params.addProperty("ma", "100")
         maprice = maIgniteService.getCode(params)

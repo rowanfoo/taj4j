@@ -88,11 +88,24 @@
             <artifactId>ignite</artifactId>
             <version>0.0.1</version>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.dhamma</groupId>-->
+        <!--            <artifactId>algodata</artifactId>-->
+        <!--            <version>0.0.1</version>-->
+        <!--        </dependency>-->
+
         <dependency>
             <groupId>com.dhamma</groupId>
-            <artifactId>algodata</artifactId>
-            <version>0.0.1</version>
+            <artifactId>manager</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+
+        <!--        <dependency>-->
+        <!--            <groupId>com.dhamma</groupId>-->
+        <!--            <artifactId>manager</artifactId>-->
+        <!--            <version>0.0.1-SNAPSHOT</version>-->
+        <!--        </dependency>-->
 
 
         <!--        <dependency>-->

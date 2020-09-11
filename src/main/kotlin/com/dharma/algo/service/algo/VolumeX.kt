@@ -1,26 +1,22 @@
-package com.dharma.algo.Algo
+package com.dharma.algo.service.algo
 
 import arrow.syntax.function.curried
 import com.dhamma.base.ignite.IgniteRepo
-import com.dhamma.ignitedata.service.CoreDataIgniteService
-import com.dhamma.ignitedata.service.NewsIgniteService
 import com.dhamma.ignitedata.service.VolumeMaIgniteService
+import com.dhamma.manager.VolManager
 import com.dhamma.pesistence.entity.data.CoreStock
 import com.dharma.algo.data.pojo.techstr
-import com.dharma.algo.utility.TechStrBuilderUtility
+import com.dharma.algo.utility.GJson
 import com.google.gson.JsonObject
 import org.apache.ignite.Ignite
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.time.LocalDate
 
 @Component
-class VolumeX {
+//class VolumeX  : IProcess {
+class VolumeX : BaseAlgo(), IProcess {
     @Autowired
     lateinit var ignite: Ignite
-
-    @Autowired
-    lateinit var coreDataIgniteService: CoreDataIgniteService
 
     @Autowired
     lateinit var stocklist: List<String>
@@ -28,40 +24,36 @@ class VolumeX {
     @Autowired
     lateinit var ignitecachestock: IgniteRepo<CoreStock>
 
-
     @Autowired
     lateinit var volumeMaIgniteService: VolumeMaIgniteService
 
     @Autowired
-    lateinit var newsIgniteService: NewsIgniteService
+    lateinit var volmag: VolManager
 
-    @Autowired
-    lateinit var techStrBuilderUtility: TechStrBuilderUtility
+    override fun process(data: JsonObject): List<techstr> {
 
-
-    fun process1(data: JsonObject): List<techstr> {
+        var usertop = data.get("sector").asString
 
         var volumex = data.get("volumex").asDouble
-        var usersector = data.get("sector").asString
-        var list = mutableListOf<techstr>()
-
-        var cache3 = volumeMaIgniteService.getCache(data)
 
         var mypredicateR = ::mypredicate.curried()(volumex)
+        var cache = volmag.today(data)
 
-        var ls = cache3
+        // for now not using filter of sector
+        return cache
+                .asSequence()
                 .map {
                     var z = getPrice(it.key)
                     z.put("avgvol", it.value)
-                    z
+                    GJson.toGson(z)
                 }
                 .filter(mypredicateR)
-                .map {
-                    techstr(it["code"] as String, it["date"] as LocalDate,
-                            "vol", getvaluemsg(it))
-                }
+                .map { setTechStr(it["code"].asString, "VOl", getvaluemsg(it)) }
+                //            .onEach { setDateC(it) }
+                .onEach { setNewsC(it) }
+                .onEach { setFundC(it) }
+                .onEach { setStockC(it) }
                 .toList()
-        return ls
     }
 
 
@@ -72,22 +64,26 @@ class VolumeX {
         return mutableMapOf<String, Any>("code" to code, "date" to date as Any, "volume" to volume, "changepercent" to coreData.changepercent)
     }
 
+    private fun mypredicate(volumex: Double, params: JsonObject): Boolean {
 
-    private fun mypredicate(volumex: Double, params: MutableMap<String, Any>): Boolean {
-        var volume = params["volume"] as Double
-        var avgvol = params["avgvol"] as Double
+        println("===================${params["code"]}")
+        var volume = params["volume"].asDouble
+        var avgvol = params["avgvol"].asDouble
+        println("============vol=======${params["volume"]}")
+        println("==============avgvol=====${params["avgvol"]}")
+
+
+
         return ((volume / avgvol) > volumex)
     }
 
-
-    private fun addmesesage(params: Map<String, Any>): String {
-        return "vol"
-    }
-
-    private fun getvaluemsg(params: Map<String, Any>): String {
-        var volume = params.get("volume") as Double
-        var avgvol = params.get("avgvol") as Double
-        var changepercent = params.get("changepercent") as Double
+    private fun getvaluemsg(params: JsonObject): String {
+        var volume = params["volume"].asDouble
+        var avgvol = params["avgvol"].asDouble
+        var changepercent = params["changepercent"].asDouble
         return "volume   ${"%.2f".format((volume / avgvol))}  **  ${"%.2f".format(changepercent)}"
     }
 }
+
+
+

@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-//class VolumeX  : IProcess {
 class VolumeX : BaseAlgo(), IProcess {
     @Autowired
     lateinit var ignite: Ignite
@@ -65,15 +64,8 @@ class VolumeX : BaseAlgo(), IProcess {
     }
 
     private fun mypredicate(volumex: Double, params: JsonObject): Boolean {
-
-        println("===================${params["code"]}")
         var volume = params["volume"].asDouble
         var avgvol = params["avgvol"].asDouble
-        println("============vol=======${params["volume"]}")
-        println("==============avgvol=====${params["avgvol"]}")
-
-
-
         return ((volume / avgvol) > volumex)
     }
 

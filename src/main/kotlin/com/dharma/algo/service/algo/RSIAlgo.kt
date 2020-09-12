@@ -25,7 +25,6 @@ class RSIAlgo : BaseAlgo(), IProcess {
     @Autowired
     lateinit var rsimag: RSIManager
 
-
     override fun process(data: JsonObject): List<techstr> {
         var rsialgodata = data.get("rsialgo").asInt
         var usertop = data.get("sector").asString

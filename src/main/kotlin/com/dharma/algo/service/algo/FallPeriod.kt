@@ -81,7 +81,7 @@ class FallPeriod {
         println("------DONE------${start - end}-----")
         return list
     }
-//
+
 //    fun process1(data: JsonObject, addDate: Boolean, addNews: Boolean, addFund: Boolean): List<techstr> {
 //
 //        var period = data.get("time").asString

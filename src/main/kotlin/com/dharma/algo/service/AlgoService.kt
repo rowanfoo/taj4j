@@ -83,16 +83,12 @@ class AlgoService {
         var content = GJson.toGson(mapOf("sector" to 300, "percent" to 0.05, "time" to "14"))
         // return fallPeriod.process(content)
         //  return addNews(fallPeriod.process(content))
-        //return fallPeriod.process(content) pipe ::addNews pipe ::addFundamental
-        return fallPeriod.process1(content, false, true, false)
+        return fallPeriod.process(content) pipe ::addNews pipe ::addFundamental
+        //return fallPeriod.process(content, false, true, false)
 
     }
 
     fun falllong(): List<techstr> {
-//        var content = JsonObject()
-//        content.addProperty("time", "360")
-//        content.addProperty("percent", 0.3)
-//        content.addProperty("sector", 300)
         var content = GJson.toGson(mapOf("sector" to 300, "percent" to 0.35, "time" to "360"))
         // return fallPeriod.process(content)
         //return addNews(fallPeriod.process(content))

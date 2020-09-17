@@ -19,6 +19,7 @@ pipeline {
              dir('project2'){
                 git branch: 'master',url: 'https://github.com/rowanfoo/basemag.git'
 sh 'pwd'
+sh 'ls'
              }
               sh 'mvn -version'
               sh 'pwd'

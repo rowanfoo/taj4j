@@ -18,7 +18,7 @@ pipeline {
                  sh 'mkdir -p project2'
              dir('project2'){
                 git branch: 'master',url: 'https://github.com/rowanfoo/basemag.git'
-
+sh 'pwd'
              }
               sh 'mvn -version'
               sh 'mvn compile'

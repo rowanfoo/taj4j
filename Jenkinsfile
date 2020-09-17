@@ -23,6 +23,7 @@ sh 'pwd'
 sh 'ls'
               sh 'mvn -version'
               sh 'mvn compile'
+              sh 'mvn install -DskipTests'
 
              }
 

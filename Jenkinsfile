@@ -51,6 +51,25 @@ sh 'ls'
         }
 
 
+        stage('Compile BASE-Manager') {
+            steps {
+                 sh 'mkdir -p project3'
+             dir('project3'){
+                git (branch: 'master',url: 'https://github.com/rowanfoo/basemag.git')
+
+
+              sh 'mvn -version'
+              sh 'mvn compile'
+              sh 'mvn install -DskipTests'
+
+             }
+
+
+
+            }
+        }
+
+
     }
 
 

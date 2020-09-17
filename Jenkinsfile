@@ -15,14 +15,16 @@ pipeline {
             steps {
                 sh 'echo hello'
                 sh 'pwd'
-
+                 sh 'mkdir -p project2'
              dir('project2'){
-                git branch: '/master',
+                git branch: 'master',
                              url: 'https://github.com/rowanfoo/basemag.git'
-              sh 'mvn -version'
-                sh 'mvn compile'
 
              }
+              sh 'mvn -version'
+              sh 'mvn compile'
+
+
             }
         }
 

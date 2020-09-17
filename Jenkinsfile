@@ -21,6 +21,7 @@ pipeline {
 sh 'pwd'
              }
               sh 'mvn -version'
+              sh 'pwd'
               sh 'mvn compile'
 
 

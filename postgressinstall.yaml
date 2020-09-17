@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: stocks
+  labels:
+    app: postgres
+data:
+  POSTGRES_PASSWORD: rowm0ng1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: stocks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      volumes:
+        - name: postgredb
+          hostPath:
+            path: /home/rowan/postgress
+      containers:
+        - name: postgres
+          image: postgres
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: stocks
+  labels:
+    app: postgres
+spec:
+  type: NodePort
+  ports:
+    - name: postgres-port
+      port: 5432
+      nodePort: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    app: postgres

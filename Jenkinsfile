@@ -32,6 +32,24 @@ sh 'ls'
             }
         }
 
+        stage('Compile BASE') {
+            steps {
+                 sh 'mkdir -p project3'
+             dir('project3'){
+                git (branch: 'master',url: 'https://github.com/rowanfoo/base.git')
+
+
+              sh 'mvn -version'
+              sh 'mvn compile'
+              sh 'mvn install -DskipTests'
+
+             }
+
+
+
+            }
+        }
+
 
     }
 

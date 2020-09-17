@@ -17,7 +17,8 @@ pipeline {
                 sh 'pwd'
                  sh 'mkdir -p project2'
              dir('project2'){
-                git branch: 'master',url: 'https://github.com/rowanfoo/basemag.git'
+//                git branch: 'master',url: 'https://github.com/rowanfoo/basemag.git'
+ checkout resolveScm(source: git('https://github.com/rowanfoo/basemag.git'), targets: [BRANCH_NAME,'master']
 sh 'pwd'
 sh 'ls'
              }

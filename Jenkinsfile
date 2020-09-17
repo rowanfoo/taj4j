@@ -18,10 +18,10 @@ pipeline {
                  sh 'mkdir -p project2'
              dir('project2'){
                 git branch: 'master',url: 'https://github.com/rowanfoo/basemag.git'
-              sh 'mvn -version'
-              sh 'mvn compile'
 
              }
+              sh 'mvn -version'
+              sh 'mvn compile'
 
 
 

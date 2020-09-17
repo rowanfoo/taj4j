@@ -17,12 +17,8 @@ pipeline {
                 sh 'pwd'
                  sh 'mkdir -p project2'
              dir('project2'){
-//                git branch: 'master',url: 'https://github.com/rowanfoo/basemag.git'
- checkout scm: ([
-                     $class: 'GitSCM',
-                     userRemoteConfigs: [[url: https://github.com/rowanfoo/basemag.git]],
-                     branches: [[name: 'master']]
-             ])
+                git (branch: 'master',url: 'https://github.com/rowanfoo/basemag.git')
+
 sh 'pwd'
 sh 'ls'
              }

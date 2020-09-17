@@ -17,14 +17,14 @@ pipeline {
                 sh 'pwd'
                  sh 'mkdir -p project2'
              dir('project2'){
-                git (branch: 'master',url: 'https://github.com/rowanfoo/basemag.git')
+                git (branch: 'master',url: 'https://github.com/rowanfoo/basej.git')
 
 sh 'pwd'
 sh 'ls'
-             }
               sh 'mvn -version'
-              sh 'pwd'
               sh 'mvn compile'
+
+             }
 
 
 

@@ -65,18 +65,11 @@ sh 'ls'
 
 
 
-        stage('Compile TAG APP') {
+        stage('BUILD  TAG APP') {
             steps {
-             dir('project4'){
-                git (branch: 'master',url: 'https://github.com/rowanfoo/taj4j.git')
               sh 'mvn -version'
               sh 'mvn compile'
               sh 'mvn package'
-
-             }
-
-
-
             }
         }
 

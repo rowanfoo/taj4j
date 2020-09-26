@@ -2,6 +2,8 @@ pipeline {
 
  environment {
      dockerImage = ""
+     image_name=""
+     name="taj"
   }
     agent any
 
@@ -72,6 +74,35 @@ sh 'ls'
               sh 'mvn package'
             }
         }
+
+        stage('DOCKER TIME'){
+            steps{
+                script {
+                    image_name = "rowanf/taj:$BUILD_NUMBER"
+                   dockerImage =  docker.build image_name
+                    sh 'pwd'
+                }
+            }
+         }
+
+        stage('DEPLOY '){
+            steps{
+                script {
+                    docker.withRegistry( '', "mydocker-cred" ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+
+
+       stage('Build') {
+            steps {
+                sh 'ssh -p 1600 root@192.168.0.10 date'
+                 sh "ssh -p 1600 root@192.168.0.10 ansible-playbook -vvv /home/rowan/myplaybook.yaml -e \"name=${name}\"  -e \"image_name=${dockerImage}\"  "
+            }
+       }
+
 
     }
 

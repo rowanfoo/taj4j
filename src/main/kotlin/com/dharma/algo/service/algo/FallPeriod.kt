@@ -17,6 +17,10 @@ import org.springframework.stereotype.Component
 import java.time.LocalDate
 import javax.annotation.PostConstruct
 
+
+/*
+find eg 6 months with 30% fall
+ */
 @Component
 class FallPeriod {
     @Autowired
@@ -145,7 +149,6 @@ class FallPeriod {
         var percentage = data.get("percentage") as Double
         return "down ${ConvertUtily.round(percentage) * 100}%"
     }
-
 
     private fun addmesesage(date: LocalDate, userprecentage: Double): String {
         return "Fall below period $date for ${userprecentage * 100}"

@@ -5,6 +5,7 @@ pipeline {
      image_name=""
      name="taj"
      portno="8080"
+     targetport="10100"
   }
     agent any
 
@@ -100,7 +101,7 @@ sh 'ls'
        stage('Build') {
             steps {
                 sh 'ssh -p 1600 root@192.168.0.10 date'
-                 sh "ssh -p 1600 root@192.168.0.10 ansible-playbook -vvv /home/rowan/myplaybook.yaml -e \"name=${name}\"  -e \"image_name=${image_name}\" -e \"portno=${portno}\"  "
+                 sh "ssh -p 1600 root@192.168.0.10 ansible-playbook -vvv /home/rowan/myplaybook.yaml -e \"name=${name}\"  -e \"image_name=${image_name}\" -e \"portno=${portno}\" -e \"targetport=${targetport}\"  "
             }
        }
 

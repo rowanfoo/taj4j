@@ -99,7 +99,7 @@ sh 'ls'
        stage('Build') {
             steps {
                 sh 'ssh -p 1600 root@192.168.0.10 date'
-                 sh "ssh -p 1600 root@192.168.0.10 ansible-playbook -vvv /home/rowan/myplaybook.yaml -e \"name=${name}\"  -e \"image_name=${dockerImage}\"  "
+                 sh "ssh -p 1600 root@192.168.0.10 ansible-playbook -vvv /home/rowan/myplaybook.yaml -e \"name=${name}\"  -e \"image_name=${image_name}\"  "
             }
        }
 

@@ -74,6 +74,7 @@ class WishlistService {
 
     fun wishlistsummary(username: String): ArrayNode {
 
+        println("---------wishlistsummary------------$username-----")
         var codes = allfavs(username)
         println("---------all codes-----------------$codes-----")
 //        var userconfig = user(username).userConfig
@@ -91,6 +92,7 @@ class WishlistService {
 //        lateinit var falldailylist: Map<String, techstr>
 //        lateinit var volumexlist: Map<String, techstr>
         println("---------X111111111111-----------------")
+        // load all of user config  , for ris , falldaily , voulume , then match to favs
         val (rsilist, falldailylist, volumexlist) = indicatorMap(username)
 
         println("---------X222222222222222-----------------")

@@ -1,5 +1,6 @@
 package com.dharma.algo.service
 
+import com.dhamma.ignitedata.utility.CoreDataScheduler
 import com.dhamma.pesistence.entity.data.HistoryIndicators
 import com.dhamma.pesistence.entity.data.IndicatorType
 import com.dhamma.pesistence.entity.data.QUser
@@ -22,12 +23,16 @@ class SchdulderService {
     @Autowired
     lateinit var algoService: AlgoService
 
+    @Autowired
+    lateinit var coreDataScheduler: CoreDataScheduler
 
     @Autowired
     lateinit var historyIndicatorsRepo: HistoryIndicatorsRepo
 
     fun createHistoricIndicator(username: String) {
         println("------createHistoricIndicator---------DATA--------")
+
+        coreDataScheduler.clearalldata();
         var alldata = indicatorMap(username)
 
         println("------createHistoricIndicator------ WILL SAVE DATA-----------")

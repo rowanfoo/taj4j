@@ -32,7 +32,7 @@ class SchdulderService {
     fun createHistoricIndicator(username: String) {
         println("------createHistoricIndicator---------DATA--------")
 
-        coreDataScheduler.clearalldata();
+//        coreDataScheduler.clearalldata();
         var alldata = indicatorMap(username)
 
         println("------createHistoricIndicator------ WILL SAVE DATA-----------")
@@ -45,9 +45,9 @@ class SchdulderService {
 
 
         }
-        println("------createHistoricIndicator------ SAVE DATA-----------")
-        historyIndicatorsRepo.saveAll(data)
-        println("------createHistoricIndicator------ SAVE DATA  DONE-----------")
+//        println("------createHistoricIndicator------ SAVE DATA-----------")
+//        historyIndicatorsRepo.saveAll(data)
+//        println("------createHistoricIndicator------ SAVE DATA  DONE-----------")
 
     }
 
@@ -108,6 +108,8 @@ class SchdulderService {
     }
 
     private fun indicatorType(type: String): IndicatorType {
+
+        println("----------indicatorType--------$type-----------${type.indexOf("fall")}--------")
         return when {
             (type.equals("RSI")) -> IndicatorType.RSI
             (type.indexOf("fall") > 0) -> IndicatorType.PRICE_FALL

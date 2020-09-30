@@ -45,9 +45,9 @@ class SchdulderService {
 
 
         }
-//        println("------createHistoricIndicator------ SAVE DATA-----------")
-//        historyIndicatorsRepo.saveAll(data)
-//        println("------createHistoricIndicator------ SAVE DATA  DONE-----------")
+        println("------createHistoricIndicator------ SAVE DATA-----------")
+        historyIndicatorsRepo.saveAll(data)
+        println("------createHistoricIndicator------ SAVE DATA  DONE-----------")
 
     }
 
@@ -59,6 +59,8 @@ class SchdulderService {
         var rsistring = userconfig.get("rsi")?.get(0)?.asJsonObject?.get("value")?.asString
         var falldailystring = userconfig.get("falldaily")?.get(0)?.asJsonObject?.get("value")?.asString
         var volumexstring = userconfig.get("volumex")?.get(0)?.asJsonObject?.get("value")?.asString
+        var maconfig = userconfig.get("ma")
+
         lateinit var rsilist: Map<String, techstr>
         lateinit var falldailylist: Map<String, techstr>
         lateinit var volumexlist: Map<String, techstr>
@@ -87,14 +89,27 @@ class SchdulderService {
 //                    volumexlist = algoService.vol(volumexstring, Optional.empty()).map { it.code to it }.toMap()
                     list.add(algoService.vol(volumexstring, Optional.empty()).map { it.code to it }.toMap())
                 }
+
+                launch {
+                    if (maconfig != null) {
+                        maconfig.forEach {
+                            var maconfigstring = it?.asJsonObject?.get("value")?.asString
+                            println("---------------$maconfigstring---------------")
+                            list.add(algoService.ma(maconfigstring.toString(), Optional.empty()).map { it.code to it }.toMap())
+                            println("-----**********************--------------")
+                        }
+                    }
+                }
+
+
             }
+
+
         }
         return list
     }
 
-
     private fun user(username: String): User = userRepo.findOne(QUser.user.username.eq(username)).get()
-
 
     private fun historyIndicator(tech: techstr, userid: String): HistoryIndicators {
         return com.dhamma.pesistence.entity.data.HistoryIndicators.builder()
@@ -109,11 +124,11 @@ class SchdulderService {
 
     private fun indicatorType(type: String): IndicatorType {
 
-        println("----------indicatorType--------$type-----------${type.indexOf("fall")}--------")
         return when {
             (type.equals("RSI")) -> IndicatorType.RSI
-            (type.indexOf("fall") > 0) -> IndicatorType.PRICE_FALL
+            (type.indexOf("fall") > -1) -> IndicatorType.PRICE_FALL
             (type.equals("VOl")) -> IndicatorType.VOLUME
+            (type.equals("MA")) -> IndicatorType.MA
             else -> IndicatorType.NONE
         }
     }

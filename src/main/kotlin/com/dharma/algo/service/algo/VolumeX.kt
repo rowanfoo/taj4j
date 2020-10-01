@@ -1,10 +1,7 @@
 package com.dharma.algo.service.algo
 
 import arrow.syntax.function.curried
-import com.dhamma.base.ignite.IgniteRepo
-import com.dhamma.ignitedata.service.VolumeMaIgniteService
 import com.dhamma.manager.VolManager
-import com.dhamma.pesistence.entity.data.CoreStock
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.utility.GJson
 import com.google.gson.JsonObject
@@ -16,15 +13,6 @@ import org.springframework.stereotype.Component
 class VolumeX : BaseAlgo(), IProcess {
     @Autowired
     lateinit var ignite: Ignite
-
-    @Autowired
-    lateinit var stocklist: List<String>
-
-    @Autowired
-    lateinit var ignitecachestock: IgniteRepo<CoreStock>
-
-    @Autowired
-    lateinit var volumeMaIgniteService: VolumeMaIgniteService
 
     @Autowired
     lateinit var volmag: VolManager

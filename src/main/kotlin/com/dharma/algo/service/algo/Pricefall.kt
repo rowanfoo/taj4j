@@ -1,16 +1,11 @@
 package com.dharma.algo.service.algo
 
-import com.dhamma.base.ignite.IgniteRepo
-import com.dhamma.pesistence.entity.data.CoreStock
 import com.dharma.algo.data.pojo.techstr
 import com.google.gson.JsonObject
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
 class Pricefall : BaseAlgo(), IProcess {
-    @Autowired
-    lateinit var ignitecachestock: IgniteRepo<CoreStock>
 
     override fun process(data: JsonObject): List<techstr> {
         var fallpercent = data.get("price").asString

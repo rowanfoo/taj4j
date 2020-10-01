@@ -1,7 +1,6 @@
 package com.dharma.algo.service.algo
 
 import com.dhamma.base.ignite.IgniteRepo
-import com.dhamma.ignitedata.service.RSiIgniteService
 import com.dhamma.manager.RSIManager
 import com.dhamma.pesistence.entity.data.CoreStock
 import com.dharma.algo.data.pojo.techstr
@@ -18,9 +17,6 @@ class RSIAlgo : BaseAlgo(), IProcess {
 
     @Autowired
     lateinit var ignitecachestock: IgniteRepo<CoreStock>
-
-    @Autowired
-    lateinit var rSiIgniteService: RSiIgniteService
 
     @Autowired
     lateinit var rsimag: RSIManager

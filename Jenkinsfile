@@ -21,7 +21,7 @@ pipeline {
                 sh 'pwd'
                  sh 'mkdir -p project2'
              dir('project2'){
-                git (branch: 'master',url: 'https://github.com/rowanfoo/basej.git')
+                git (branch: 'history',url: 'https://github.com/rowanfoo/basej.git')
 
 sh 'pwd'
 sh 'ls'
@@ -39,7 +39,7 @@ sh 'ls'
         stage('Compile BASE') {
             steps {
              dir('project3'){
-                git (branch: 'master',url: 'https://github.com/rowanfoo/base.git')
+                git (branch: 'history',url: 'https://github.com/rowanfoo/base.git')
               sh 'mvn -version'
               sh 'mvn compile'
               sh 'mvn install -DskipTests'

@@ -1,9 +1,6 @@
 package com.dharma.algo.service.algo
 
-import arrow.syntax.function.curried
-import com.dhamma.manager.VolManager
 import com.dharma.algo.data.pojo.techstr
-import com.dharma.algo.utility.GJson
 import com.google.gson.JsonObject
 import org.apache.ignite.Ignite
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,33 +11,34 @@ class VolumeX : BaseAlgo(), IProcess {
     @Autowired
     lateinit var ignite: Ignite
 
-    @Autowired
-    lateinit var volmag: VolManager
+//    @Autowired
+//    lateinit var volmag: VolManager
 
     override fun process(data: JsonObject): List<techstr> {
 
-        var usertop = data.get("sector").asString
-
-        var volumex = data.get("volumex").asDouble
-
-        var mypredicateR = ::mypredicate.curried()(volumex)
-        var cache = volmag.today(data)
-
-        // for now not using filter of sector
-        return cache
-                .asSequence()
-                .map {
-                    var z = getPrice(it.key)
-                    z.put("avgvol", it.value)
-                    GJson.toGson(z)
-                }
-                .filter(mypredicateR)
-                .map { setTechStr(it["code"].asString, "VOl", getvaluemsg(it)) }
-                //            .onEach { setDateC(it) }
-                .onEach { setNewsC(it) }
-                .onEach { setFundC(it) }
-                .onEach { setStockC(it) }
-                .toList()
+//        var usertop = data.get("sector").asString
+//
+//        var volumex = data.get("volumex").asDouble
+//
+//        var mypredicateR = ::mypredicate.curried()(volumex)
+//        var cache = volmag.today(data)
+//
+//        // for now not using filter of sector
+//        return cache
+//                .asSequence()
+//                .map {
+//                    var z = getPrice(it.key)
+//                    z.put("avgvol", it.value)
+//                    GJson.toGson(z)
+//                }
+//                .filter(mypredicateR)
+//                .map { setTechStr(it["code"].asString, "VOl", getvaluemsg(it)) }
+//                //            .onEach { setDateC(it) }
+//                .onEach { setNewsC(it) }
+//                .onEach { setFundC(it) }
+//                .onEach { setStockC(it) }
+//                .toList()
+        return listOf()
     }
 
 

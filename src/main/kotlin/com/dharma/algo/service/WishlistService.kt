@@ -12,12 +12,8 @@ import com.dharma.algo.utility.Json
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Controller
-import java.util.*
 
 
 @Component
@@ -113,34 +109,38 @@ class WishlistService {
     }
 
     private fun indicatorMap(username: String): Triple<Map<String, techstr>, Map<String, techstr>, Map<String, techstr>> {
-        var userconfig = user(username).userConfig
-        var rsistring = userconfig.get("rsi")?.get(0)?.asJsonObject?.get("value")?.asString
-        var falldailystring = userconfig.get("falldaily")?.get(0)?.asJsonObject?.get("value")?.asString
-        var volumexstring = userconfig.get("volumex")?.get(0)?.asJsonObject?.get("value")?.asString
+//        var userconfig = user(username).userConfig
+//        var rsistring = userconfig.get("rsi")?.get(0)?.asJsonObject?.get("value")?.asString
+//        var falldailystring = userconfig.get("falldaily")?.get(0)?.asJsonObject?.get("value")?.asString
+//        var volumexstring = userconfig.get("volumex")?.get(0)?.asJsonObject?.get("value")?.asString
         lateinit var rsilist: Map<String, techstr>
         lateinit var falldailylist: Map<String, techstr>
         lateinit var volumexlist: Map<String, techstr>
+//
+//        runBlocking {
+//
+//            launch {
+//                if (rsistring != null) rsilist = algoService.rsi(rsistring, Optional.empty()).map { it.code to it }.toMap()
+//            }
+//
+//            launch {
+//                println("---------falldailystring---------------$falldailystring-----")
+//                if (falldailystring != null) falldailylist = algoService.price(falldailystring, Optional.empty()).map { it.code to it }.toMap()
+//                println("---------falldailystring------size---------${falldailylist.size}-----")
+//            }
+//
+//            launch {
+//                println("---------Y1-----------------")
+//                if (volumexstring != null) volumexlist = algoService.vol(volumexstring, Optional.empty()).map { it.code to it }.toMap()
+//                println("---------Y2-----------------")
+//
+//            }
+//        }
+//        return Triple(rsilist, falldailylist, volumexlist)
 
-        runBlocking {
 
-            launch {
-                if (rsistring != null) rsilist = algoService.rsi(rsistring, Optional.empty()).map { it.code to it }.toMap()
-            }
-
-            launch {
-                println("---------falldailystring---------------$falldailystring-----")
-                if (falldailystring != null) falldailylist = algoService.price(falldailystring, Optional.empty()).map { it.code to it }.toMap()
-                println("---------falldailystring------size---------${falldailylist.size}-----")
-            }
-
-            launch {
-                println("---------Y1-----------------")
-                if (volumexstring != null) volumexlist = algoService.vol(volumexstring, Optional.empty()).map { it.code to it }.toMap()
-                println("---------Y2-----------------")
-
-            }
-        }
         return Triple(rsilist, falldailylist, volumexlist)
+
     }
 
     private fun message(rsilist: Map<String, techstr>, falldailylist: Map<String, techstr>, volumexlist: Map<String, techstr>, code: String): String {

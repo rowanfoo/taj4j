@@ -16,16 +16,18 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <kotlin.version>1.3.50</kotlin.version>
+        <!--        <kotlin.version>1.3.50</kotlin.version>-->
         <ignite.version>2.7.0</ignite.version>
+        <kotlin.version>1.3.61</kotlin.version>
+        <arrow.version>0.10.4</arrow.version>
 
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-data-jpa</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
@@ -57,17 +59,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>4.1.4</version>
+        <!--        <dependency>-->
+        <!--            <groupId>com.querydsl</groupId>-->
+        <!--            <artifactId>querydsl-apt</artifactId>-->
+        <!--            <version>4.1.4</version>-->
 
-        </dependency>
-        <dependency>
-            <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>4.1.4</version>
-        </dependency>
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.querydsl</groupId>-->
+        <!--            <artifactId>querydsl-jpa</artifactId>-->
+        <!--            <version>4.1.4</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.ta4j</groupId>
             <artifactId>ta4j-core</artifactId>
@@ -86,36 +88,42 @@
             <artifactId>ignite</artifactId>
             <version>0.0.1</version>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.dhamma</groupId>-->
+        <!--            <artifactId>algodata</artifactId>-->
+        <!--            <version>0.0.1</version>-->
+        <!--        </dependency>-->
+
         <dependency>
             <groupId>com.dhamma</groupId>
-            <artifactId>algodata</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.dharma</groupId>
-            <artifactId>persistence</artifactId>
+            <artifactId>manager</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
 
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.197</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.dhamma</groupId>-->
+        <!--            <artifactId>manager</artifactId>-->
+        <!--            <version>0.0.1-SNAPSHOT</version>-->
+        <!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
 
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jersey</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.h2database</groupId>-->
+        <!--            <artifactId>h2</artifactId>-->
+        <!--            <version>1.4.197</version>-->
+        <!--        </dependency>-->
+
+        <!--        <dependency>-->
+        <!--            <groupId>com.google.code.gson</groupId>-->
+        <!--            <artifactId>gson</artifactId>-->
+        <!--            <version>2.8.5</version>-->
+
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-jersey</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -133,32 +141,35 @@
         </dependency>
 
 
-        <!--ignite-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.ignite</groupId>-->
-        <!--            <artifactId>ignite-core</artifactId>-->
-        <!--            <version>${ignite.version}</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.197</version>
+        </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.ignite</groupId>-->
-        <!--            <artifactId>ignite-indexing</artifactId>-->
-        <!--            <version>${ignite.version}</version>-->
-        <!--            <exclusions>-->
-        <!--                <exclusion>-->
-        <!--                    <groupId>com.h2database</groupId>-->
-        <!--                    <artifactId>h2</artifactId>-->
-        <!--                </exclusion>-->
-        <!--            </exclusions>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.h2database</groupId>-->
-        <!--            <artifactId>h2</artifactId>-->
-        <!--            <version>1.4.197</version>-->
-        <!--        </dependency>-->
+
+        <!--           <groupId>io.arrow-kt</groupId>-->
+        <!--            <artifactId>arrow-core</artifactId>-->
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core</artifactId>
+            <version>1.2.1</version>
+
+        </dependency>
+        <dependency>
+            <groupId>io.arrow-kt</groupId>
+            <artifactId>arrow-core</artifactId>
+            <version>${arrow.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.arrow-kt</groupId>
+            <artifactId>arrow-syntax</artifactId>
+            <version>${arrow.version}</version>
+        </dependency>
 
 
     </dependencies>
+
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
@@ -221,8 +232,17 @@
                         <version>0.12</version>
                     </dependency>
 
+                    <!--                    <dependency>-->
+                    <!--                        <groupId>org.jetbrains.kotlinx</groupId>-->
+                    <!--                        <artifactId>kotlinx-coroutines-core</artifactId>-->
+                    <!--                        <version>1.3.3</version>-->
+                    <!--                    </dependency>-->
+
+
                 </dependencies>
+
             </plugin>
+
             <!--            <plugin>-->
             <!--                <groupId>com.mysema.maven</groupId>-->
             <!--                <artifactId>apt-maven-plugin</artifactId>-->
@@ -239,6 +259,26 @@
             <!--                    </execution>-->
             <!--                </executions>-->
             <!--            </plugin>-->
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <configuration>
+                    <to>
+                        <image>rowanf/taj</image>
+                        <auth>
+                            <username>rowanf</username>
+                            <password>rowm0ng1</password>
+                        </auth>
+                    </to>
+                    <!--                    <container>-->
+                    <!--                        <mainClass>com.dharma.algo.Ta4jApplication</mainClass>-->
+                    <!--                    </container>-->
+
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

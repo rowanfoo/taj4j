@@ -6,7 +6,6 @@ import com.dhamma.ignitedata.service.MaIgniteService
 import com.dharma.algo.utility.Maths
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
-import com.google.gson.JsonObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.time.LocalDate
@@ -67,25 +66,25 @@ public class MetaData {
         map.put("code", code)
         var today = coreDataIgniteService.today(code)
         var todayPrice = today.close
-
-        var params = JsonObject()
-        params.addProperty("ma", "50")
-        params.addProperty("mode", "price")
-        params.addProperty("code", code)
-        var maprice = maIgniteService.getCode(params)
-        map.put("fifty", Maths.percent(todayPrice, maprice).toString())
-
-        params.addProperty("ma", "100")
-        maprice = maIgniteService.getCode(params)
-        map.put("onehundred", Maths.percent(todayPrice, maprice).toString())
-
-        params.addProperty("ma", "200")
-        maprice = maIgniteService.getCode(params)
-        map.put("twohundred", Maths.percent(todayPrice, maprice).toString())
-
-        params.addProperty("ma", "20")
-        maprice = maIgniteService.getCode(params)
-        map.put("twenty", Maths.percent(todayPrice, maprice).toString())
+//
+//        var params = JsonObject()
+//        params.addProperty("ma", "50")
+//        params.addProperty("mode", "price")
+//        params.addProperty("code", code)
+//        var maprice = maIgniteService.getCode(params)
+//        map.put("fifty", Maths.percent(todayPrice, maprice).toString())
+//
+//        params.addProperty("ma", "100")
+//        maprice = maIgniteService.getCode(params)
+//        map.put("onehundred", Maths.percent(todayPrice, maprice).toString())
+//
+//        params.addProperty("ma", "200")
+//        maprice = maIgniteService.getCode(params)
+//        map.put("twohundred", Maths.percent(todayPrice, maprice).toString())
+//
+//        params.addProperty("ma", "20")
+//        maprice = maIgniteService.getCode(params)
+//        map.put("twenty", Maths.percent(todayPrice, maprice).toString())
         return map
     }
 }

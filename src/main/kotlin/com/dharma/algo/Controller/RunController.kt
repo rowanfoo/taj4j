@@ -3,7 +3,6 @@ package com.dharma.algo.Controller
 import com.dhamma.ignitedata.manager.ImportManager
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.service.AlgoService
-import com.dharma.algo.service.AlgoService1
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
@@ -17,8 +16,8 @@ class RunController {
     @Autowired
     lateinit var algoService: AlgoService
 
-    @Autowired
-    lateinit var algoService1: AlgoService1
+//    @Autowired
+//    lateinit var algoService1: AlgoService1
 
     @GetMapping("/")
     fun root(): String {
@@ -58,18 +57,18 @@ class RunController {
 //        return algoService.rsi(algo)
 //    }
 
-    @GetMapping("/algo/{id}")
-    fun algo(@PathVariable id: String): List<techstr> {
-        println("---ALGO----------")
-        return algoService1.process(id, true, true, true, true)
-    }
-
-
-    @GetMapping("/rsi/{id}")
-    fun getbydate(@PathVariable id: String, sectorparam: Optional<String>): List<techstr> {
-        println("---RSI----------")
-        return algoService1.process(id, true, true, true, true)
-    }
+//    @GetMapping("/algo/{id}")
+//    fun algo(@PathVariable id: String): List<techstr> {
+//        println("---ALGO----------")
+//        return algoService1.process(id, true, true, true, true)
+//    }
+//
+//
+//    @GetMapping("/rsi/{id}")
+//    fun getbydate(@PathVariable id: String, sectorparam: Optional<String>): List<techstr> {
+//        println("---RSI----------")
+//        return algoService1.process(id, true, true, true, true)
+//    }
 
 
     @GetMapping("/falldaily/{algo}")

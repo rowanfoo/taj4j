@@ -1,11 +1,12 @@
 package com.dharma.algo.Controller
 
-import com.dhamma.ignitedata.service.SummaryService
-import com.dhamma.ignitedata.utility.CoreDataScheduler
+import com.dhamma.ignitedata.manager.ImportManager
 import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.service.AlgoService
+import com.dharma.algo.service.AlgoService1
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 import java.util.*
 import java.util.regex.Pattern
 
@@ -16,6 +17,8 @@ class RunController {
     @Autowired
     lateinit var algoService: AlgoService
 
+    @Autowired
+    lateinit var algoService1: AlgoService1
 
     @GetMapping("/")
     fun root(): String {
@@ -50,10 +53,24 @@ class RunController {
 
     //http://localhost:8080/rsi/30<14
     //14<30
-    @GetMapping("/rsi/{algo}")
-    fun getbydate(@PathVariable algo: String, sectorparam: Optional<String>): List<techstr> {
-        return algoService.rsi(algo, sectorparam)
+//    @GetMapping("/rsi/{algo}")
+//    fun getbydate(@PathVariable algo: String, sectorparam: Optional<String>): List<techstr> {
+//        return algoService.rsi(algo)
+//    }
+
+    @GetMapping("/algo/{id}")
+    fun algo(@PathVariable id: String): List<techstr> {
+        println("---ALGO----------")
+        return algoService1.process(id, true, true, true, true)
     }
+
+
+    @GetMapping("/rsi/{id}")
+    fun getbydate(@PathVariable id: String, sectorparam: Optional<String>): List<techstr> {
+        println("---RSI----------")
+        return algoService1.process(id, true, true, true, true)
+    }
+
 
     @GetMapping("/falldaily/{algo}")
     fun price(@PathVariable algo: String, @RequestParam sectorparam: Optional<String>): List<techstr> {
@@ -86,19 +103,23 @@ class RunController {
         return Pair(zz.substring(0, m.start()), zz.substring(m.start(), m.end()))
     }
 
+//    @Autowired
+//    lateinit var coredatascheduler: CoreDataScheduler
+//
+//    @Autowired
+//    lateinit var summaryService: SummaryService
+//
+
     @Autowired
-    lateinit var coredatascheduler: CoreDataScheduler
-    @Autowired
-    lateinit var summaryService: SummaryService
+    lateinit var importManager: ImportManager
 
 
     @GetMapping("/reset")
     fun reset() {
-        println("-----reset1------")
-        coredatascheduler.ignitecache()
+        println("-----START IMPORT ALGO---${LocalDate.now()}---")
+        importManager.startimport()
+
         println("-----reset2------")
-        summaryService.updateToday()
-        println("-----reset3------")
 
 
     }

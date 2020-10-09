@@ -96,21 +96,18 @@ class AlgoService {
     }
 
 
-    fun rsi(algo: String, sectorparam: Optional<String>): List<techstr> {
+    fun rsi(algo: String): List<techstr> {
         println("------------------------rsi--------$algo---------")
-        var (arg1, operator, arg2) = threeElems(algo)
-        println("------------------------rsi--------$arg1-----------$arg2-----")
+        //  var (arg1, operator, arg2) = threeElems(algo)
+        //println("------------------------rsi--------$arg1-----------$arg2-----")
 
-        var a = GJson.toGson(mapOf("time" to arg2, "rsialgo" to arg1))
+        //var a = GJson.toGson(mapOf("time" to arg2, "rsialgo" to arg1))
 
         lateinit var sector: String;
-        if (!sectorparam.isPresent) a.addProperty("sector", "300")
-        else a.addProperty("sector", sectorparam.get())
 
 
-
-        return rsialgo.process(a, true, true, true, true)
-
+        // return rsialgo.process(a, true, true, true, true)
+        return listOf()
     }
 
     fun price(algo: String, sectorparam: Optional<String>): List<techstr> {

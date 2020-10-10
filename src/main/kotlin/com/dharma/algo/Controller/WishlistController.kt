@@ -31,7 +31,6 @@ class WishlistController {
 
 
     @GetMapping("/wishlist/metadata/{stocks}")
-//    fun getMetaData(@PathVariable stocks: String): ArrayNode {
     fun getMetaData(@PathVariable stocks: String): Iterable<JsonNode> {
 
         var list = stocks.split(",")
@@ -55,16 +54,8 @@ class WishlistController {
             (towork as ObjectNode).put("yearchange", it.yearchange ?: 0.00)
             map[it.code] = towork
         }
-        println("---------------------RUN----------JSON--------$z----")
-//        return z
         return map.values.asIterable()
     }
-//    ---------getWishlisSummary-------http://localhost:8080/wishlist/alldetails/rowan
-
-//    @GetMapping("/wishlist/alldetails/{userid}")
-//    fun getalldetails(@PathVariable userid: String): ArrayNode {
-//        return wishlistService.wishlistsummary(userid)
-//    }
 
     @GetMapping("/wishlist/alldetails/{userid}")
     fun getalldetails(@PathVariable userid: String, @RequestParam date: Optional<String>): ArrayNode {
@@ -76,6 +67,9 @@ class WishlistController {
         return wishlistRepo.findAll(QWishlist.wishlist.userid.eq(userid)).toList()
     }
 
-
+    @GetMapping("/wishlist/wishlistcategorys/{category}/userid/{userid}")
+    fun wishcategorycodes(@PathVariable category: String, @PathVariable userid: String): List<String> {
+        return wishlistRepo.findOne(QWishlist.wishlist.userid.eq(userid).and(QWishlist.wishlist.category.eq(category))).get().code.split(",")
+    }
 }
 

@@ -1,14 +1,18 @@
 package com.dharma.algo.service.algo;
 
 
+import arrow.syntax.function.curried
+import com.dhamma.ignitedata.manager.MAManager
 import com.dhamma.ignitedata.service.CoreDataIgniteService
+import com.dhamma.ignitedata.service.HistoryIndicatorService
 import com.dhamma.ignitedata.service.MaIgniteService
-import com.dharma.algo.utility.Maths
+import com.dharma.algo.ConvertUtily
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
+import com.google.gson.JsonObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.time.LocalDate
+import java.util.*
 
 
 @Component
@@ -19,59 +23,76 @@ public class MetaData {
     @Autowired
     lateinit var maIgniteService: MaIgniteService
 
+    @Autowired
+    lateinit var maManager: MAManager
 
-    public fun getMetaData(code: List<String>): ArrayNode {
+    @Autowired
+    lateinit var historyIndicatorService: HistoryIndicatorService
+
+
+    public fun getMetaData(date: Optional<String>, code: List<String>): ArrayNode {
         var mapper = ObjectMapper()
         val arrayNode = mapper.createArrayNode()
-        var map = mutableMapOf<String, String>()
+        var mydate = if (date.isPresent) historyIndicatorService.dateExsits(date.get()).toString() else historyIndicatorService.today().toString()
 
-        code.map { it.toUpperCase() }.forEach {
-            map.putAll(ma(it.toUpperCase()))
-            map.putAll(yearprice(it.toUpperCase()))
-            map.putAll(changePercent(it.toUpperCase()))
+        var maf = ::ma.curried()(mydate)
+        var changePercentf = ::changePercent.curried()(mydate)
+
+//        code.map { it.toUpperCase() }.forEach {
+        code.parallelStream().forEach {
+
+            var map = mutableMapOf<String, String>()
+            map.putAll(maf(it.toUpperCase()))
+//            map.putAll(yearprice(it.toUpperCase()))
+            map.putAll(changePercentf(it.toUpperCase()))
             arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
         }
         return arrayNode
     }
 
-    fun yearprice(code: String): Map<String, String> {
-        var counter = 0
+//    fun yearprice(code: String): Map<String, String> {
+//        var counter = 0
+//        var map = mutableMapOf<String, String>()
+//        var today = coreDataIgniteService.today(code)
+////        var today =stockdate(date, code)
+//
+//        var todayPrice = today.close
+//        var dates = listOf<LocalDate>(LocalDate.now().minusYears(1), LocalDate.now().minusYears(2))
+//        dates.forEach {
+//            var series = coreDataIgniteService.dategt(code, it.toString())
+//            var oneYearPrice = series.first().close
+//            if (counter == 0) map.put("oneyear", Maths.percent(todayPrice, oneYearPrice).toString())
+//            else map.put("twoyear", Maths.percent(todayPrice, oneYearPrice).toString())
+//            counter++
+//
+//        }
+//        return map
+//    }
+
+    private fun stockdate(code: String, date: String) = coreDataIgniteService.dateeq(code, date)
+
+
+    fun changePercent(date: String, code: String): Map<String, String> {
+        println("------------------changePercent---------$code-----------$date---")
         var map = mutableMapOf<String, String>()
-        var today = coreDataIgniteService.today(code)
+        var today = stockdate(code, date)
+        println("------------------changePercent-List-------------$today---")
 
-        var todayPrice = today.close
-        var dates = listOf<LocalDate>(LocalDate.now().minusYears(1), LocalDate.now().minusYears(2))
-        dates.forEach {
-            var series = coreDataIgniteService.dategt(code, it.toString())
-            var oneYearPrice = series.first().close
-            if (counter == 0) map.put("oneyear", Maths.percent(todayPrice, oneYearPrice).toString())
-            else map.put("twoyear", Maths.percent(todayPrice, oneYearPrice).toString())
-            counter++
-
-        }
-        return map
-    }
-
-
-    fun changePercent(code: String): Map<String, String> {
-        var map = mutableMapOf<String, String>()
-        var today = coreDataIgniteService.today(code)
         var todaychange = today.changepercent
         map.put("change", todaychange.toString())
         return map
     }
 
-    fun ma(code: String): Map<String, String> {
-        var map = mutableMapOf<String, String>()
-        map.put("code", code)
-        var today = coreDataIgniteService.today(code)
-        var todayPrice = today.close
-//
-//        var params = JsonObject()
-//        params.addProperty("ma", "50")
-//        params.addProperty("mode", "price")
-//        params.addProperty("code", code)
-//        var maprice = maIgniteService.getCode(params)
+    fun ma(date: String, code: String): Map<String, String> {
+
+        var params = JsonObject()
+        params.addProperty("ma", "50")
+        params.addProperty("mode", "price")
+        params.addProperty("code", code)
+
+        var data = maManager.code(code, date, 20, "price")
+        val yourHashMap = toMAMap(data, 20)
+        //   val yourHashMap = Gson().fromJson(data.toString(), HashMap::class.java) as HashMap<String, String>
 //        map.put("fifty", Maths.percent(todayPrice, maprice).toString())
 //
 //        params.addProperty("ma", "100")
@@ -85,6 +106,27 @@ public class MetaData {
 //        params.addProperty("ma", "20")
 //        maprice = maIgniteService.getCode(params)
 //        map.put("twenty", Maths.percent(todayPrice, maprice).toString())
+        //return map
+        data = maManager.code(code, date, 50, "price")
+        //  yourHashMap.putAll(Gson().fromJson(data.toString(), HashMap::class.java) as Map<String, String>)
+        yourHashMap.putAll(toMAMap(data, 50))
+
+
+        data = maManager.code(code, date, 100, "price")
+        //  yourHashMap.putAll(Gson().fromJson(data.toString(), HashMap::class.java) as Map<String, String>)
+        yourHashMap.putAll(toMAMap(data, 100))
+
+        data = maManager.code(code, date, 200, "price")
+        //  yourHashMap.putAll(Gson().fromJson(data.toString(), HashMap::class.java) as Map<String, String>)
+        yourHashMap.putAll(toMAMap(data, 200))
+        return yourHashMap
+    }
+
+    private fun toMAMap(data: JsonObject, time: Int): MutableMap<String, String> {
+        var map = mutableMapOf<String, String>()
+        map.put("code", data["code"].asString)
+        map.put("percentage${time}", ConvertUtily.round((data["percentage"].asDouble * 100)).toString())
+        map.put("maprice${time}", data["maprice"].asString)
         return map
     }
 }

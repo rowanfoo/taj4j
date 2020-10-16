@@ -8,6 +8,7 @@ import com.dhamma.pesistence.service.FundamentalService
 import com.dharma.algo.data.pojo.techstr
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.util.*
 import javax.annotation.PostConstruct
 
 /*
@@ -52,9 +53,9 @@ class AlgoService1 {
         setStockC = ::bind.curried()(addStock)(addStockR)
     }
 
-    fun process(id: String, addDate: Boolean, addNews: Boolean, addFund: Boolean, addStock: Boolean): List<techstr> {
+    fun process(id: String, date: Optional<String>, addDate: Boolean, addNews: Boolean, addFund: Boolean, addStock: Boolean): List<techstr> {
         setFunction(addDate, addNews, addFund, addStock)
-        return historyIndicatorstoTechstrs(historyIndicatorService.todaytypeid(id))
+        return historyIndicatorstoTechstrs(historyIndicatorService.todaytypeid(id, date))
                 .asSequence()
                 .onEach { setNewsC(it) }
                 .onEach { setFundC(it) }

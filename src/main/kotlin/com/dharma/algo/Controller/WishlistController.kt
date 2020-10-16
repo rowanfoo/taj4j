@@ -31,22 +31,17 @@ class WishlistController {
 
 
     @GetMapping("/wishlist/metadata/{stocks}")
-    fun getMetaData(@PathVariable stocks: String): Iterable<JsonNode> {
+    fun getMetaData(@PathVariable stocks: String, @RequestParam date: Optional<String>): Iterable<JsonNode> {
 
         var list = stocks.split(",")
         var funds = fundamentalService.codes(list)
-        var z = metadata.getMetaData(list)
-
+        var z = metadata.getMetaData(date, list)
 
         var map = z.map {
-            println("----*******------${it.get("code").asText()}---------")
-
             it.get("code").asText() to it
         }.toMap().toMutableMap()
 
-
         funds.forEach {
-            println("----------${it.code}---------")
             var towork = map[it.code]
             (towork as ObjectNode).put("marketcap", it.marketcap)
             (towork as ObjectNode).put("pe", it.pe)

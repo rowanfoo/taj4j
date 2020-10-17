@@ -6,6 +6,9 @@ import com.dhamma.pesistence.entity.data.HistoryIndicators
 import com.dhamma.pesistence.service.FundamentalService
 import com.dharma.algo.data.pojo.Stock
 import com.dharma.algo.data.pojo.techstr
+import com.dharma.algo.utility.Json
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 
 
 fun historyIndicatorstoTechstrs(list: List<HistoryIndicators>): List<techstr> {
@@ -40,4 +43,8 @@ fun addStock(stockservice: Map<String, CoreStock>, tech: techstr): techstr {
 }
 
 
-
+fun stockinfo(stockservice: Map<String, CoreStock>, code: String): JsonNode {
+    val mapper = ObjectMapper()
+    var stk = stockservice.get(code)
+    return if (stk == null) mapper.createObjectNode() else Json.toJson(stk!!);
+}

@@ -20,6 +20,17 @@ class StockController {
         return allStocks.keys
     }
 
+    @GetMapping("/stocks/tags")
+    fun getTags(): Set<String> {
+        var hashSet = HashSet<String>()
+        allStocks.entries.forEach {
+            if (it.value.tags != null) {
+                hashSet.add(it.value.tags)
+            }
+        }
+        return hashSet
+    }
+
     @GetMapping("/stocks/stock/{code}")
     fun stock(@PathVariable code: String) = allStocks[code]
 
@@ -32,10 +43,10 @@ class StockController {
     @PutMapping("/stocks")
     fun set(@RequestBody stock: CoreStock) {
         var stk = allStocks[stock.code]!!
-        stk.category = stock.category
-        stk.subcategory = stock.subcategory
+//        stk.category = stock.category
+//        stk.subcategory = stock.subcategory
+        stk.tags = stock.tags
+
         stockRepo.save(stk)
     }
-
-
 }

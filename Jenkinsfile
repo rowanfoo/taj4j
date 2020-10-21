@@ -3,7 +3,7 @@ pipeline {
  environment {
      dockerImage = ""
      image_name=""
-     name="taj"
+     name="ta4j"
      portno="8080"
      targetport="10100"
   }

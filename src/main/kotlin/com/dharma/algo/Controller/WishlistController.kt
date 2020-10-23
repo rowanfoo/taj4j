@@ -1,7 +1,9 @@
 package com.dharma.algo.Controller
 
+import com.dhamma.pesistence.entity.data.QComment
 import com.dhamma.pesistence.entity.data.QWishlist
 import com.dhamma.pesistence.entity.data.Wishlist
+import com.dhamma.pesistence.entity.repo.CommentRepo
 import com.dhamma.pesistence.entity.repo.WishlistRepo
 import com.dhamma.pesistence.service.FundamentalService
 import com.dharma.algo.service.WishlistService
@@ -28,6 +30,9 @@ class WishlistController {
 
     @Autowired
     lateinit var wishlistRepo: WishlistRepo
+
+    @Autowired
+    lateinit var commentRepo: CommentRepo
 
 
     @GetMapping("/wishlist/metadata/{stocks}")
@@ -59,12 +64,20 @@ class WishlistController {
 
     @GetMapping("/wishlist/wishlistcategorys/{userid}")
     fun wishlistcategorys(@PathVariable userid: String): List<Wishlist> {
-        return wishlistRepo.findAll(QWishlist.wishlist.userid.eq(userid)).toList()
+        return wishlistRepo.findAll(QWishlist.wishlist.userid.eq(userid))
+                .toList().plus(Wishlist.builder().category("comment").build())
     }
 
     @GetMapping("/wishlist/wishlistcategorys/{category}/userid/{userid}")
     fun wishcategorycodes(@PathVariable category: String, @PathVariable userid: String): List<String> {
-        return wishlistRepo.findOne(QWishlist.wishlist.userid.eq(userid).and(QWishlist.wishlist.category.eq(category))).get().code.split(",")
+
+        return if (category.equals("comment")) {
+            commentRepo.findAll(QComment.comment.userid.eq(userid).and(QComment.comment.isReject.eq(false))).map {
+                it.code
+            }.toList()
+        } else {
+            wishlistRepo.findOne(QWishlist.wishlist.userid.eq(userid).and(QWishlist.wishlist.category.eq(category))).get().code.split(",")
+        }
     }
 }
 

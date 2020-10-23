@@ -4,6 +4,7 @@ import com.dhamma.ignitedata.service.CoreDataIgniteService
 import com.dhamma.ignitedata.service.HistoryIndicatorService
 import com.dhamma.ignitedata.service.NewsIgniteService
 import com.dhamma.pesistence.entity.data.*
+import com.dhamma.pesistence.entity.repo.CommentRepo
 import com.dhamma.pesistence.entity.repo.UserRepo
 import com.dhamma.pesistence.entity.repo.WishlistRepo
 import com.dharma.algo.utility.Json
@@ -23,6 +24,9 @@ class WishlistService {
 
     @Autowired
     lateinit var wishlistRepo: WishlistRepo
+
+    @Autowired
+    lateinit var commentRepo: CommentRepo
 
 
 //    @Autowired
@@ -103,7 +107,6 @@ class WishlistService {
             (rootNode as ObjectNode).put("news", Json.toJson(newsIgniteService.newsToday(it)))
             arrayNode.add(rootNode)
         }
-
         return arrayNode
     }
 
@@ -129,12 +132,17 @@ class WishlistService {
     }
 
     private fun allfavs(username: String): List<String> {
-        var mutableList = mutableListOf<String>()
+        var mutableList = mutableSetOf<String>()
 
         wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username)).forEach {
             mutableList.addAll(it.code.split(","))
         }
-        return mutableList;
+
+
+        commentRepo.findAll(QComment.comment.userid.eq(username).and(QComment.comment.isReject.eq(false))).forEach {
+            mutableList.add(it.code)
+        }
+        return mutableList.toList();
 
     }
 

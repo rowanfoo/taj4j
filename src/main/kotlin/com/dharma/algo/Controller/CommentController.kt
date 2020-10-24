@@ -13,6 +13,10 @@ class CommentController {
     @Autowired
     lateinit var commentRepo: CommentRepo
 
+    @GetMapping("/comment/{id}")
+    fun id(@PathVariable id: String): Comment {
+        return commentRepo.findOne(QComment.comment.id.eq(id.toLong())).get()
+    }
 
     @GetMapping("/comment/all/{userid}")
     fun getAll(@PathVariable userid: String): List<Comment> {

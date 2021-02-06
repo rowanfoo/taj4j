@@ -56,6 +56,18 @@ class CommentController {
         commentRepo.save(comment)
 
     }
+
+    @DeleteMapping("/comment/{id}")
+    fun remove(@PathVariable id: String) {
+        var codes = id.split(",")
+        codes.forEach {
+            var comment = commentRepo.findOne(QComment.comment.code.eq(it)).get()
+            comment.isReject = true
+            commentRepo.save(comment)
+            println("----DELTE-------------$comment")
+        }
+    }
+
 }
 
 

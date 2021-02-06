@@ -2,6 +2,7 @@ package com.dharma.algo.Controller
 
 import com.dhamma.pesistence.entity.data.Comment
 import com.dhamma.pesistence.entity.data.QComment
+import com.dhamma.pesistence.entity.data.type.DurationType
 import com.dhamma.pesistence.entity.repo.CommentRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -33,8 +34,13 @@ class CommentController {
         return commentRepo.findAll(QComment.comment.userid.eq(userid).and(QComment.comment.type.ne("ideas"))).toList()
     }
 
+    @GetMapping("/comment/userid/{userid}/period/{period}")
+    fun getAllCommentbyPeriod(@PathVariable userid: String, @PathVariable period: String): List<Comment> {
+        return commentRepo.findAll(QComment.comment.userid.eq(userid).and(QComment.comment.period.eq(DurationType.valueOf(period)))).toList()
+    }
+
     @GetMapping("/comment/userid/{userid}/type/{type}")
-    fun getAllCommentbyType(@PathVariable userid: String, type: String): List<Comment> {
+    fun getAllCommentbyType(@PathVariable userid: String, @PathVariable type: String): List<Comment> {
         return commentRepo.findAll(QComment.comment.userid.eq(userid).and(QComment.comment.type.eq(type))).toList()
     }
 

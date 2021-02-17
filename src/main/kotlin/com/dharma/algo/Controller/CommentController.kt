@@ -5,6 +5,8 @@ import com.dhamma.pesistence.entity.data.QComment
 import com.dhamma.pesistence.entity.data.type.DurationType
 import com.dhamma.pesistence.entity.repo.CommentRepo
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
@@ -36,7 +38,9 @@ class CommentController {
 
     @GetMapping("/comment/userid/{userid}/period/{period}")
     fun getAllCommentbyPeriod(@PathVariable userid: String, @PathVariable period: String): List<Comment> {
-        return commentRepo.findAll(QComment.comment.userid.eq(userid).and(QComment.comment.period.eq(DurationType.valueOf(period)))).toList()
+        return commentRepo.findAll(
+            QComment.comment.userid.eq(userid).and(QComment.comment.period.eq(DurationType.valueOf(period)))
+        ).toList()
     }
 
     @GetMapping("/comment/userid/{userid}/type/{type}")
@@ -57,11 +61,11 @@ class CommentController {
 
 
     @PutMapping("/comment")
-    fun insert(@RequestBody comment: Comment) {
-        println("----insert-------------$comment")
-        commentRepo.save(comment)
-
+    fun insert(@RequestBody comment: Comment): ResponseEntity<Comment> {
+        var mycomment = commentRepo.save(comment)
+        return ResponseEntity<Comment>(mycomment, HttpStatus.OK)
     }
+
 
     @DeleteMapping("/comment/{id}")
     fun remove(@PathVariable id: String) {
@@ -70,10 +74,8 @@ class CommentController {
             var comment = commentRepo.findOne(QComment.comment.code.eq(it)).get()
             comment.isReject = true
             commentRepo.save(comment)
-            println("----DELTE-------------$comment")
         }
     }
-
 }
 
 

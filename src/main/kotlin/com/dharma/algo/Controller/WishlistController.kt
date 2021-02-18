@@ -79,7 +79,7 @@ class WishlistController {
         } else {
             wishlistRepo.findOne(
                 QWishlist.wishlist.userid.eq(userid).and(QWishlist.wishlist.category.eq(category))
-                    .and(QWishlist.wishlist.category.ne("MARKET"))
+
             )
                 .get().code.split(",")
         }

@@ -138,7 +138,7 @@ class WishlistService {
     private fun allfavs(username: String): List<String> {
         var mutableList = mutableSetOf<String>()
 
-        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username).and(QWishlist.wishlist.category.ne("MARKET")))
+        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username).and(QWishlist.wishlist.category.notLike("%INDEX%")))
             .forEach {
                 mutableList.addAll(it.code.split(","))
             }

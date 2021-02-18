@@ -64,9 +64,10 @@ class WishlistController {
 
     @GetMapping("/wishlist/wishlistcategorys/{userid}")
     fun wishlistcategorys(@PathVariable userid: String): List<Wishlist> {
-        return wishlistRepo.findAll(QWishlist.wishlist.userid.eq(userid))
-                .toList().plus(Wishlist.builder().category("comment").build())
+        return wishlistRepo.findAll(QWishlist.wishlist.userid.eq(userid).and(QWishlist.wishlist.category.ne("MARKET")))
+            .toList().plus(Wishlist.builder().category("comment").build())
     }
+
 
     @GetMapping("/wishlist/wishlistcategorys/{category}/userid/{userid}")
     fun wishcategorycodes(@PathVariable category: String, @PathVariable userid: String): List<String> {
@@ -76,7 +77,11 @@ class WishlistController {
                 it.code
             }.toList()
         } else {
-            wishlistRepo.findOne(QWishlist.wishlist.userid.eq(userid).and(QWishlist.wishlist.category.eq(category))).get().code.split(",")
+            wishlistRepo.findOne(
+                QWishlist.wishlist.userid.eq(userid).and(QWishlist.wishlist.category.eq(category))
+                    .and(QWishlist.wishlist.category.ne("MARKET"))
+            )
+                .get().code.split(",")
         }
     }
 }

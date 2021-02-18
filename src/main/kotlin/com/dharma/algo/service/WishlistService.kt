@@ -70,7 +70,7 @@ class WishlistService {
         println("---------X222222222222222-----------------")
 
         var map = historyIndicatorService.datecodes(codes, mydate)
-
+        println("---------X3333333333333-----------------")
 //        runBlocking {
 //
 //            launch {
@@ -97,7 +97,11 @@ class WishlistService {
             (rootNode as ObjectNode).put("code", it)
 //            (rootNode as ObjectNode).put("message", message)
             (rootNode as ObjectNode).put("message", message(map, it))
+            println("--------dateeq-------$it--------------$mydate-")
+            // can throw Exception here , if code ... has empty data for that day !! todo catch and warn
             var data = coreDataIgniteService.dateeq(it, mydate.toString())
+            println("--------dateeq-------done----------")
+
             (rootNode as ObjectNode).put("price", data.close)
 
             (rootNode as ObjectNode).put("change", data.changepercent)
@@ -134,9 +138,10 @@ class WishlistService {
     private fun allfavs(username: String): List<String> {
         var mutableList = mutableSetOf<String>()
 
-        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username)).forEach {
-            mutableList.addAll(it.code.split(","))
-        }
+        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username).and(QWishlist.wishlist.category.ne("MARKET")))
+            .forEach {
+                mutableList.addAll(it.code.split(","))
+            }
 
 
         commentRepo.findAll(QComment.comment.userid.eq(username).and(QComment.comment.isReject.eq(false))).forEach {
@@ -147,6 +152,4 @@ class WishlistService {
     }
 
     private fun user(username: String): User = userRepo.findOne(QUser.user.username.eq(username)).get()
-
-
 }

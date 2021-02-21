@@ -41,6 +41,31 @@ class TrackerController {
         return s
     }
 
+    @GetMapping("/tracker/code/{code}/period/{period}/{userid}")
+    fun codeduration(
+        @PathVariable userid: String,
+        @PathVariable code: String,
+        @PathVariable period: String
+    ): Iterable<Comment> {
+        println("====TrackerController==codeduration=========${userid}=================${code}==========${code}")
+        lateinit var type: DurationType
+
+        if (period.equals("SHORT")) {
+            type = DurationType.SHORT
+        } else {
+            type = DurationType.LONG
+        }
+
+        var s = commentRepo.findAll(
+            QComment.comment.userid.eq(userid).and(QComment.comment.code.eq(code)).and(
+                QComment.comment.period.eq(type)
+            )
+        ).toList()
+        println(s)
+        return s
+    }
+
+
     @DeleteMapping("/tracker/code/{code}/{userid}")
     fun removecode(@PathVariable userid: String, @PathVariable code: String) {
 

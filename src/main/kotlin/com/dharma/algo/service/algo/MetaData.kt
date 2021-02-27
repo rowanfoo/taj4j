@@ -13,7 +13,6 @@ import com.google.gson.JsonObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
-import kotlin.streams.toList
 
 
 @Component
@@ -38,25 +37,17 @@ public class MetaData {
             .toString() else historyIndicatorService.today().toString()
         var maf = ::ma.curried()(mydate)
         var changePercentf = ::changePercent.curried()(mydate)
-
-        //  THREAD ---- ISSUE
-        //https://stackoverflow.com/questions/53847517/java-parallelstream-map-misses-records
-        //missing record  ----- use map rather than foreach
-        //            //! no IDEA why this got thread issue ... sometime code running above doesnt go into arrayNode
-        //            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
-        //
-        var store = code.parallelStream().map {
+        var store = mutableListOf<MutableMap<String, String>>()
+//        code.map { it.toUpperCase() }.forEach {
+        code.parallelStream().forEach {
 
             var map = mutableMapOf<String, String>()
             map.putAll(maf(it.toUpperCase()))
             map.putAll(changePercentf(it.toUpperCase()))
-            map.putAll(thisweekprice(it.toUpperCase()))
-            map.putAll(correctionfromHigh(it.toUpperCase()))
-            map
+            store.add(map)
             //! no IDEA why this got thread issue ... sometime code running above doesnt go into arrayNode
             //            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
-        }.toList()
-
+        }
         //put this out to solve THREAD issue
         store.forEach() {
             arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(it)))
@@ -64,21 +55,38 @@ public class MetaData {
         return arrayNode
     }
 
+//    fun yearprice(code: String): Map<String, String> {
+//        var counter = 0
+//        var map = mutableMapOf<String, String>()
+//        var today = coreDataIgniteService.today(code)
+////        var today =stockdate(date, code)
+//
+//        var todayPrice = today.close
+//        var dates = listOf<LocalDate>(LocalDate.now().minusYears(1), LocalDate.now().minusYears(2))
+//        dates.forEach {
+//            var series = coreDataIgniteService.dategt(code, it.toString())
+//            var oneYearPrice = series.first().close
+//            if (counter == 0) map.put("oneyear", Maths.percent(todayPrice, oneYearPrice).toString())
+//            else map.put("twoyear", Maths.percent(todayPrice, oneYearPrice).toString())
+//            counter++
+//
+//        }
+//        return map
+//    }
+
     private fun stockdate(code: String, date: String) = coreDataIgniteService.dateeq(code, date)
 
+
     fun changePercent(date: String, code: String): Map<String, String> {
+        println("------------------changePercent---------$code-----------$date---")
         var map = mutableMapOf<String, String>()
         var today = stockdate(code, date)
+        println("------------------changePercent-List-------------$today---")
+
         var todaychange = today.changepercent
         map.put("change", todaychange.toString())
         return map
     }
-
-    fun correctionfromHigh(code: String): Map<String, String> {
-        return coreDataIgniteService.correctionfromHigh(code) as Map<String, String>
-    }
-
-    fun thisweekprice(code: String) = coreDataIgniteService.pricethisweek(code) as Map<String, String>
 
     fun ma(date: String, code: String): Map<String, String> {
 

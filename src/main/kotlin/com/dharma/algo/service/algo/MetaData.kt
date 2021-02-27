@@ -37,25 +37,21 @@ public class MetaData {
             .toString() else historyIndicatorService.today().toString()
         var maf = ::ma.curried()(mydate)
         var changePercentf = ::changePercent.curried()(mydate)
-
         var store = mutableListOf<MutableMap<String, String>>()
-
 //        code.map { it.toUpperCase() }.forEach {
         code.parallelStream().forEach {
 
             var map = mutableMapOf<String, String>()
             map.putAll(maf(it.toUpperCase()))
             map.putAll(changePercentf(it.toUpperCase()))
+            store.add(map)
             //! no IDEA why this got thread issue ... sometime code running above doesnt go into arrayNode
             //            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
         }
         //put this out to solve THREAD issue
         store.forEach() {
-            println("-------------------------getMetaData---------------4.1 code-------------$it-----------")
-
             arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(it)))
         }
-
         return arrayNode
     }
 

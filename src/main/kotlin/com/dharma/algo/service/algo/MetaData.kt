@@ -61,6 +61,9 @@ public class MetaData {
             var map = mutableMapOf<String, String>()
             map.putAll(maf(it.toUpperCase()))
             map.putAll(changePercentf(it.toUpperCase()))
+            map.putAll(thisweekprice(it.toUpperCase()))
+            map.putAll(correctionfromHigh(it.toUpperCase()))
+
             map
         }.toList()
 
@@ -98,6 +101,10 @@ public class MetaData {
 //    }
 
     private fun stockdate(code: String, date: String) = coreDataIgniteService.dateeq(code, date)
+    fun correctionfromHigh(code: String) = coreDataIgniteService.correctionfromHigh(code) as Map<String, String>
+
+
+    fun thisweekprice(code: String) = coreDataIgniteService.pricethisweek(code) as Map<String, String>
 
 
     fun changePercent(date: String, code: String): Map<String, String> {

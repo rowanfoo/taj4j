@@ -13,6 +13,7 @@ import com.google.gson.JsonObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
+import kotlin.streams.toList
 
 
 @Component
@@ -37,21 +38,43 @@ public class MetaData {
             .toString() else historyIndicatorService.today().toString()
         var maf = ::ma.curried()(mydate)
         var changePercentf = ::changePercent.curried()(mydate)
-        var store = mutableListOf<MutableMap<String, String>>()
-//        code.map { it.toUpperCase() }.forEach {
-        code.parallelStream().forEach {
 
+////        code.map { it.toUpperCase() }.forEach {
+//        code.parallelStream().forEach {
+//
+//            var map = mutableMapOf<String, String>()
+//            map.putAll(maf(it.toUpperCase()))
+//            map.putAll(changePercentf(it.toUpperCase()))
+//            store.add(map)
+//            //! no IDEA why this got thread issue ... sometime code running above doesnt go into arrayNode
+//            //            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
+//        }
+//        //put this out to solve THREAD issue
+        //  THREAD ---- ISSUE
+        //https://stackoverflow.com/questions/53847517/java-parallelstream-map-misses-records
+        //missing record  ----- use map rather than foreach
+        //            //! no IDEA why this got thread issue ... sometime code running above doesnt go into arrayNode
+        //            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
+        //
+        var store = code.parallelStream().map {
+//        code.map { it.toUpperCase() }.forEach {
             var map = mutableMapOf<String, String>()
             map.putAll(maf(it.toUpperCase()))
             map.putAll(changePercentf(it.toUpperCase()))
-            store.add(map)
-            //! no IDEA why this got thread issue ... sometime code running above doesnt go into arrayNode
-            //            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
-        }
+            map
+        }.toList()
+
         //put this out to solve THREAD issue
+        //! no IDEA why this got thread issue ... sometime code running above doesnt go into arrayNode
+        //            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
         store.forEach() {
             arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(it)))
         }
+
+
+        //        store.forEach() {
+//            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(it)))
+//        }
         return arrayNode
     }
 

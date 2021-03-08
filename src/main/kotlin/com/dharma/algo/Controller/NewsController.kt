@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 import java.util.*
 
 
@@ -30,18 +31,37 @@ class NewsController {
     lateinit var newsService: NewsService
 
     @GetMapping("/news/all")
-    fun list(@RequestParam date: Optional<String>, @RequestParam(name = "page", defaultValue = "0") page: Int,
-             @RequestParam(name = "size", defaultValue = "50") size: Int): Page<ObjectNode>? {
+    fun list(
+        @RequestParam date: Optional<String>, @RequestParam(name = "page", defaultValue = "0") page: Int,
+        @RequestParam(name = "size", defaultValue = "50") size: Int
+    ): Page<ObjectNode>? {
 
-        var mydate = if (date.isPresent()) historyIndicatorService.dateExsits(date.get()) else historyIndicatorService.today()
+        lateinit var startdate: String
+        lateinit var enddate: String
 
         val pageRequest = PageRequest.of(page, size)
-        val pageResult: Page<News> = newsRepo.findAll(QNews.news.date.eq(mydate), pageRequest)
+        lateinit var pageResult: Page<News>
+
+        if (date.isPresent()) {
+            if (date.get().indexOf(',') > 0) {
+                var z = date.get().split(",")
+                startdate = z[0]
+                enddate = z[0]
+                pageResult = newsRepo.findAll(
+                    QNews.news.date.between(LocalDate.parse(startdate), LocalDate.parse(enddate)),
+                    pageRequest
+                )
+            } else {
+                var date = historyIndicatorService.dateExsits(date.get())
+                pageResult = newsRepo.findAll(QNews.news.date.eq(date), pageRequest)
+            }
+        } else {
+            var today = historyIndicatorService.today()
+            pageResult = newsRepo.findAll(QNews.news.date.eq(today), pageRequest)
+        }
 
         var x = newsService.addStockInfo(pageResult.content, true, page.toString(), size.toString())
         return PageImpl(x, pageRequest, pageResult.getTotalElements());
-
-
     }
 
 

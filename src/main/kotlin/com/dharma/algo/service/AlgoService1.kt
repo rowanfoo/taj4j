@@ -7,6 +7,9 @@ import com.dhamma.pesistence.entity.data.CoreStock
 import com.dhamma.pesistence.service.FundamentalService
 import com.dharma.algo.data.pojo.techstr
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 import java.util.*
 import javax.annotation.PostConstruct
@@ -53,13 +56,34 @@ class AlgoService1 {
         setStockC = ::bind.curried()(addStock)(addStockR)
     }
 
-    fun process(id: String, date: Optional<String>, addDate: Boolean, addNews: Boolean, addFund: Boolean, addStock: Boolean): List<techstr> {
+    fun process(
+        id: String,
+        date: Optional<String>,
+        addDate: Boolean,
+        addNews: Boolean,
+        addFund: Boolean,
+        addStock: Boolean,
+        page: Pair<Int, Int>
+    ): Page<techstr> {
         setFunction(addDate, addNews, addFund, addStock)
-        return historyIndicatorstoTechstrs(historyIndicatorService.todaytypeid(id, date))
-                .asSequence()
-                .onEach { setNewsC(it) }
-                .onEach { setFundC(it) }
-                .onEach { setStockC(it) }
-                .toList()
+
+        var myddate = fngetdate(date)
+        // find single day
+        if (myddate.second.isNullOrBlank()) {
+            myddate = Pair(myddate.first, myddate.first)
+        }
+        // find date between date
+        var mypage = historyIndicatorService.datebetweentypeid(id, myddate.first, myddate.second!!, page)
+        var data = mypage.content
+        var content = historyIndicatorstoTechstrs(data)
+            .asSequence()
+            .onEach { setNewsC(it) }
+            .onEach { setFundC(it) }
+            .onEach { setStockC(it) }
+            .toList()
+
+        var z = PageImpl<techstr>(content, PageRequest.of(page.first, page.second), mypage.totalElements)
+        return z
     }
+
 }

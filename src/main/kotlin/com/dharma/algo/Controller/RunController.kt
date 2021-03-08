@@ -5,6 +5,7 @@ import com.dharma.algo.data.pojo.techstr
 import com.dharma.algo.service.AlgoService
 import com.dharma.algo.service.AlgoService1
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 import java.util.*
@@ -59,9 +60,12 @@ class RunController {
 //    }
 
     @GetMapping("/algo/{id}")
-    fun algo(@PathVariable id: String, @RequestParam date: Optional<String>): List<techstr> {
-        println("---ALGO----------")
-        return algoService1.process(id, date, true, true, true, true)
+    fun algo(
+        @PathVariable id: String, @RequestParam date: Optional<String>,
+        @RequestParam(name = "page", defaultValue = "0") page: Int,
+        @RequestParam(name = "size", defaultValue = "50") size: Int
+    ): Page<techstr> {
+        return algoService1.process(id, date, true, true, true, true, Pair<Int, Int>(page, size))
     }
 
 //

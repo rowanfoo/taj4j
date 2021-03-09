@@ -67,12 +67,8 @@ class AlgoService1 {
     ): Page<techstr> {
         setFunction(addDate, addNews, addFund, addStock)
 
-        var myddate = fngetdate(date)
-        // find single day
-        if (myddate.second.isNullOrBlank()) {
-            myddate = Pair(myddate.first, myddate.first)
-        }
-        // find date between date
+        var myddate = fngetdatebetween(date, historyIndicatorService)
+
         var mypage = historyIndicatorService.datebetweentypeid(id, myddate.first, myddate.second!!, page)
         var data = mypage.content
         var content = historyIndicatorstoTechstrs(data)

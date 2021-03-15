@@ -6,6 +6,7 @@ import com.dhamma.ignitedata.manager.MAManager
 import com.dhamma.ignitedata.service.CoreDataIgniteService
 import com.dhamma.ignitedata.service.HistoryIndicatorService
 import com.dhamma.ignitedata.service.MaIgniteService
+import com.dhamma.ignitedata.service.TA4JService
 import com.dharma.algo.ConvertUtily
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
@@ -29,6 +30,9 @@ public class MetaData {
 
     @Autowired
     lateinit var historyIndicatorService: HistoryIndicatorService
+
+    @Autowired
+    lateinit var ta4JService: TA4JService
 
 
     public fun getMetaData(date: Optional<String>, code: List<String>): ArrayNode {
@@ -63,6 +67,8 @@ public class MetaData {
             map.putAll(changePercentf(it.toUpperCase()))
             map.putAll(thisweekprice(it.toUpperCase()))
             map.putAll(correctionfromHigh(it.toUpperCase()))
+            map.putAll(countMaPercentage100(it.toUpperCase()))
+            map.putAll(countMaPercentage200(it.toUpperCase()))
 
             map
         }.toList()
@@ -81,7 +87,7 @@ public class MetaData {
         return arrayNode
     }
 
-//    fun yearprice(code: String): Map<String, String> {
+    //    fun yearprice(code: String): Map<String, String> {
 //        var counter = 0
 //        var map = mutableMapOf<String, String>()
 //        var today = coreDataIgniteService.today(code)
@@ -103,9 +109,7 @@ public class MetaData {
     private fun stockdate(code: String, date: String) = coreDataIgniteService.dateeq(code, date)
     fun correctionfromHigh(code: String) = coreDataIgniteService.correctionfromHigh(code) as Map<String, String>
 
-
     fun thisweekprice(code: String) = coreDataIgniteService.pricethisweek(code) as Map<String, String>
-
 
     fun changePercent(date: String, code: String): Map<String, String> {
         println("------------------changePercent---------$code-----------$date---")
@@ -164,4 +168,10 @@ public class MetaData {
         map.put("maprice${time}", data["maprice"].asString)
         return map
     }
+
+    private fun countMaPercentage100(code: String) =
+        mapOf("countMA100" to ta4JService.getCountAboveMA(code, 100, 160.0, 0.03))
+
+    private fun countMaPercentage200(code: String) =
+        mapOf("countMA200" to ta4JService.getCountAboveMA(code, 200, 160.0, 0.03))
 }

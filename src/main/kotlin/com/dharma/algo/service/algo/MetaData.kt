@@ -3,10 +3,7 @@ package com.dharma.algo.service.algo;
 
 import arrow.syntax.function.curried
 import com.dhamma.ignitedata.manager.MAManager
-import com.dhamma.ignitedata.service.CoreDataIgniteService
-import com.dhamma.ignitedata.service.HistoryIndicatorService
-import com.dhamma.ignitedata.service.MaIgniteService
-import com.dhamma.ignitedata.service.TA4JService
+import com.dhamma.ignitedata.service.*
 import com.dharma.algo.ConvertUtily
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
@@ -34,6 +31,8 @@ public class MetaData {
     @Autowired
     lateinit var ta4JService: TA4JService
 
+    @Autowired
+    lateinit var covidService: CovidService
 
     public fun getMetaData(date: Optional<String>, code: List<String>): ArrayNode {
         var mapper = ObjectMapper()
@@ -61,6 +60,7 @@ public class MetaData {
         //            arrayNode.add(ObjectMapper().readTree(ObjectMapper().writeValueAsString(map)))
         //
         var store = code.parallelStream().map {
+//        var store = code.map {
 //        code.map { it.toUpperCase() }.forEach {
             var map = mutableMapOf<String, String>()
             map.putAll(maf(it.toUpperCase()))
@@ -69,7 +69,7 @@ public class MetaData {
             map.putAll(correctionfromHigh(it.toUpperCase()))
             map.putAll(countMaPercentage100(it.toUpperCase()))
             map.putAll(countMaPercentage200(it.toUpperCase()))
-
+            map.putAll(covidService.getResult(it.toUpperCase()))
             map
         }.toList()
 

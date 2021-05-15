@@ -137,16 +137,22 @@ class WishlistService {
 
     private fun allfavs(username: String): List<String> {
         var mutableList = mutableSetOf<String>()
+//////to do review ... many error prone is if include all other wishlist
+//        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username).and(QWishlist.wishlist.category.notLike("%INDEX%")))
+//            .forEach {
+//                mutableList.addAll(it.code.split(","))
+//            }
 
-        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username).and(QWishlist.wishlist.category.notLike("%INDEX%")))
+// BUY
+        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username).and(QWishlist.wishlist.category.like("%BUY%")))
             .forEach {
                 mutableList.addAll(it.code.split(","))
             }
 
-
-        commentRepo.findAll(QComment.comment.userid.eq(username).and(QComment.comment.isReject.eq(false))).forEach {
-            mutableList.add(it.code)
-        }
+///// to do should separate out into another combo box
+//        commentRepo.findAll(QComment.comment.userid.eq(username).and(QComment.comment.isReject.eq(false))).forEach {
+//            mutableList.add(it.code)
+//        }
         return mutableList.toList();
 
     }

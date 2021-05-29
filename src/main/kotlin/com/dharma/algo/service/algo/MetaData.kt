@@ -128,7 +128,7 @@ public class MetaData {
         params.addProperty("ma", "50")
         params.addProperty("mode", "price")
         params.addProperty("code", code)
-
+        println("-------metadata---ma-----$code")
         var data = maManager.code(code, date, 20, "price")
         val yourHashMap = toMAMap(data, 20)
         //   val yourHashMap = Gson().fromJson(data.toString(), HashMap::class.java) as HashMap<String, String>

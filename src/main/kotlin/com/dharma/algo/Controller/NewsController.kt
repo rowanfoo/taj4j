@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.util.*
 
@@ -62,6 +60,22 @@ class NewsController {
 
         var x = newsService.addStockInfo(pageResult.content, true, page.toString(), size.toString())
         return PageImpl(x, pageRequest, pageResult.getTotalElements());
+    }
+
+    @GetMapping("/news/week")
+    fun getThisWeekNews(@PathVariable code: String): List<News> {
+
+        var a = LocalDate.now().dayOfWeek.value
+        var b = LocalDate.now().with(DayOfWeek.MONDAY)
+
+        return if (LocalDate.now().dayOfWeek.value == 0) {
+            newsRepo.findAll(QNews.news.date.eq(LocalDate.now()).and(QNews.news.code.eq(code))).toList()
+        } else {
+
+            var start = LocalDate.now().with(DayOfWeek.MONDAY)
+            newsRepo.findAll(QNews.news.date.between(start, LocalDate.now()).and(QNews.news.code.eq(code)))
+                .toList()
+        }
     }
 
 

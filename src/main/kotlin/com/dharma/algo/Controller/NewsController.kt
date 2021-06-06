@@ -62,7 +62,7 @@ class NewsController {
         return PageImpl(x, pageRequest, pageResult.getTotalElements());
     }
 
-    @GetMapping("/news/week")
+    @GetMapping("/news/week/{code}")
     fun getThisWeekNews(@PathVariable code: String): List<News> {
 
         var a = LocalDate.now().dayOfWeek.value

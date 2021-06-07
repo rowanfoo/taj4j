@@ -144,7 +144,10 @@ class WishlistService {
 //            }
 
 // BUY
-        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username).and(QWishlist.wishlist.category.like("%BUY%")))
+        var cat = QWishlist.wishlist.category
+        var bool = cat.like("%BUY%").or(cat.like("%CHECK%"))
+
+        wishlistRepo.findAll(QWishlist.wishlist.userid.eq(username).and(bool))
             .forEach {
                 mutableList.addAll(it.code.split(","))
             }
